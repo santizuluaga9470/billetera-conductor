@@ -1886,7 +1886,7 @@ async function setCfg(d) {
 }
 async function cargarMovs() {
   const s = await DB.collection(C.movs)
-    .orderBy('fecha','desc').orderBy('creado','desc').get();
+          .orderBy('fecha','desc').get();
   APP.movimientos = s.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 async function cargarAportes() {
