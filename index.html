@@ -1717,7 +1717,7 @@ select.inp option { background: #fff; color: var(--texto); }
      SCRIPTS
 ════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="festivos.js"></script>
 <script src="firebase-config.js"></script>
 
@@ -1853,6 +1853,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       setTimeout(() => iniciarRegistro(), 800);
     }
 
+    console.log('Llegué al final del arranque');
     // Ocultar spinner
     document.getElementById('spinner').style.display = 'none';
 
