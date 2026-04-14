@@ -1,675 +1,675 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>🚗 Billetera Conductor</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>🚗 Billetera Conductor</title>
 
-<!-- Firebase SDK primero en el HEAD — obligatorio -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <!-- Firebase SDK primero en el HEAD — obligatorio -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-<!-- CSS externos -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap"/>
+  <!-- CSS externos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap"/>
 
-<style>
-/* =====================================================
-   BILLETERA CONDUCTOR — TEMA CLARO
-   Diseño limpio, moderno, responsive
-   Pesos colombianos sin decimales
-   ===================================================== */
+  <style>
+    /* =====================================================
+       BILLETERA CONDUCTOR — TEMA CLARO
+       Diseño limpio, moderno, responsive
+       Pesos colombianos sin decimales
+       ===================================================== */
 
-:root {
-  --bg:        #f0f2f5;
-  --bg2:       #ffffff;
-  --bg3:       #f8f9fa;
-  --borde:     #e2e6ea;
-  --borde2:    #dee2e6;
-  --verde:     #16a34a;
-  --verde-l:   #dcfce7;
-  --verde-m:   #22c55e;
-  --rojo:      #dc2626;
-  --rojo-l:    #fee2e2;
-  --amarillo:  #d97706;
-  --amarillo-l:#fef3c7;
-  --azul:      #2563eb;
-  --azul-l:    #dbeafe;
-  --naranja:   #ea580c;
-  --naranja-l: #ffedd5;
-  --morado:    #7c3aed;
-  --morado-l:  #ede9fe;
-  --cian:      #0891b2;
-  --cian-l:    #cffafe;
-  --texto:     #1e293b;
-  --texto2:    #475569;
-  --texto3:    #94a3b8;
-  --sombra:    0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
-  --sombra2:   0 2px 8px rgba(0,0,0,.12);
-  --radio:     14px;
-  --radio-sm:  10px;
-  --font-d:    'Nunito', sans-serif;
-  --font-b:    'Poppins', sans-serif;
-}
+    :root {
+      --bg:        #f0f2f5;
+      --bg2:       #ffffff;
+      --bg3:       #f8f9fa;
+      --borde:     #e2e6ea;
+      --borde2:    #dee2e6;
+      --verde:     #16a34a;
+      --verde-l:   #dcfce7;
+      --verde-m:   #22c55e;
+      --rojo:      #dc2626;
+      --rojo-l:    #fee2e2;
+      --amarillo:  #d97706;
+      --amarillo-l:#fef3c7;
+      --azul:      #2563eb;
+      --azul-l:    #dbeafe;
+      --naranja:   #ea580c;
+      --naranja-l: #ffedd5;
+      --morado:    #7c3aed;
+      --morado-l:  #ede9fe;
+      --cian:      #0891b2;
+      --cian-l:    #cffafe;
+      --texto:     #1e293b;
+      --texto2:    #475569;
+      --texto3:    #94a3b8;
+      --sombra:    0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+      --sombra2:   0 2px 8px rgba(0,0,0,.12);
+      --radio:     14px;
+      --radio-sm:  10px;
+      --font-d:    'Nunito', sans-serif;
+      --font-b:    'Poppins', sans-serif;
+    }
 
-/* Reset */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font-b);
-  background: var(--bg);
-  color: var(--texto);
-  min-height: 100vh;
-  padding-bottom: 72px;
-  overflow-x: hidden;
-  font-size: 14px;
-}
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--texto);
+      min-height: 100vh;
+      padding-bottom: 72px;
+      overflow-x: hidden;
+      font-size: 14px;
+    }
 
-/* ── Spinner ─────────────────────────────── */
-#spinner {
-  position: fixed; inset: 0; z-index: 9999;
-  background: #fff;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 16px;
-}
-#spinner .sp-ring {
-  width: 44px; height: 44px;
-  border: 3px solid var(--borde);
-  border-top-color: var(--verde);
-  border-radius: 50%;
-  animation: girar .7s linear infinite;
-}
-#spinner p { color: var(--texto3); font-size: 13px; }
-@keyframes girar { to { transform: rotate(360deg); } }
+    /* ── Spinner ─────────────────────────────── */
+    #spinner {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #fff;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+    }
+    #spinner .sp-ring {
+      width: 44px; height: 44px;
+      border: 3px solid var(--borde);
+      border-top-color: var(--verde);
+      border-radius: 50%;
+      animation: girar .7s linear infinite;
+    }
+    #spinner p { color: var(--texto3); font-size: 13px; }
+    @keyframes girar { to { transform: rotate(360deg); } }
 
-/* ── Nav bottom ──────────────────────────── */
-.nav-bot {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 600;
-  background: #fff;
-  border-top: 1px solid var(--borde);
-  display: flex; align-items: stretch;
-  height: 60px;
-  box-shadow: 0 -2px 12px rgba(0,0,0,.08);
-}
-.nb {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 3px;
-  background: none; border: none;
-  color: var(--texto3); font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .04em;
-  cursor: pointer; transition: color .2s; padding: 6px 4px;
-}
-.nb i { font-size: 18px; transition: all .2s; }
-.nb.act { color: var(--verde); }
-.nb.act i { transform: translateY(-1px); }
+    /* ── Nav bottom ──────────────────────────── */
+    .nav-bot {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 600;
+      background: #fff;
+      border-top: 1px solid var(--borde);
+      display: flex; align-items: stretch;
+      height: 60px;
+      box-shadow: 0 -2px 12px rgba(0,0,0,.08);
+    }
+    .nb {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      background: none; border: none;
+      color: var(--texto3); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em;
+      cursor: pointer; transition: color .2s; padding: 6px 4px;
+    }
+    .nb i { font-size: 18px; transition: all .2s; }
+    .nb.act { color: var(--verde); }
+    .nb.act i { transform: translateY(-1px); }
 
-/* ── Páginas ─────────────────────────────── */
-.pg { display: none; padding: 12px 12px 0; }
-.pg.act { display: block; animation: fadeUp .3s ease both; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    /* ── Páginas ─────────────────────────────── */
+    .pg { display: none; padding: 12px 12px 0; }
+    .pg.act { display: block; animation: fadeUp .3s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-/* ── Header de página ────────────────────── */
-.pg-hdr {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 4px 0 12px;
-}
-.pg-hdr h1 {
-  font-family: var(--font-d);
-  font-size: 22px; font-weight: 900;
-  color: var(--texto);
-}
-.pg-hdr p { font-size: 12px; color: var(--texto3); margin-top: 2px; }
+    /* ── Header de página ────────────────────── */
+    .pg-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 4px 0 12px;
+    }
+    .pg-hdr h1 {
+      font-family: var(--font-d);
+      font-size: 22px; font-weight: 900;
+      color: var(--texto);
+    }
+    .pg-hdr p { font-size: 12px; color: var(--texto3); margin-top: 2px; }
 
-/* ── Cards ───────────────────────────────── */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-.card-hdr {
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--borde);
-  background: var(--bg3);
-}
-.card-hdr h2 {
-  font-family: var(--font-d);
-  font-size: 14px; font-weight: 800;
-  color: var(--texto);
-}
-.card-hdr i { color: var(--verde); font-size: 15px; }
-.card-body { padding: 16px; }
+    /* ── Cards ───────────────────────────────── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      box-shadow: var(--sombra);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .card-hdr {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--borde);
+      background: var(--bg3);
+    }
+    .card-hdr h2 {
+      font-family: var(--font-d);
+      font-size: 14px; font-weight: 800;
+      color: var(--texto);
+    }
+    .card-hdr i { color: var(--verde); font-size: 15px; }
+    .card-body { padding: 16px; }
 
-/* ── Chips / badges ──────────────────────── */
-.chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 100px;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .04em; text-transform: uppercase;
-  cursor: pointer; transition: all .2s;
-}
-.chip-verde  { background: var(--verde-l);   color: var(--verde); }
-.chip-rojo   { background: var(--rojo-l);    color: var(--rojo); }
-.chip-azul   { background: var(--azul-l);    color: var(--azul); }
-.chip-naranja{ background: var(--naranja-l); color: var(--naranja); }
-.chip-amarillo{background: var(--amarillo-l);color: var(--amarillo); }
-.chip-morado { background: var(--morado-l);  color: var(--morado); }
-.chip-cian   { background: var(--cian-l);    color: var(--cian); }
+    /* ── Chips / badges ──────────────────────── */
+    .chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 100px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .04em; text-transform: uppercase;
+      cursor: pointer; transition: all .2s;
+    }
+    .chip-verde  { background: var(--verde-l);   color: var(--verde); }
+    .chip-rojo   { background: var(--rojo-l);    color: var(--rojo); }
+    .chip-azul   { background: var(--azul-l);    color: var(--azul); }
+    .chip-naranja{ background: var(--naranja-l); color: var(--naranja); }
+    .chip-amarillo{background: var(--amarillo-l);color: var(--amarillo); }
+    .chip-morado { background: var(--morado-l);  color: var(--morado); }
+    .chip-cian   { background: var(--cian-l);    color: var(--cian); }
 
-/* ── Stat boxes ──────────────────────────── */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stat {
-  background: var(--bg2);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio-sm);
-  padding: 14px 12px;
-  text-align: center;
-  box-shadow: var(--sombra);
-  transition: border-color .2s;
-}
-.stat:hover { border-color: var(--verde); }
-.stat .sv {
-  font-family: var(--font-d);
-  font-size: 20px; font-weight: 900;
-  line-height: 1; color: var(--texto);
-}
-.stat .sv.verde   { color: var(--verde); }
-.stat .sv.rojo    { color: var(--rojo); }
-.stat .sv.azul    { color: var(--azul); }
-.stat .sv.amarillo{ color: var(--amarillo); }
-.stat .sv.cian    { color: var(--cian); }
-.stat .sl {
-  font-size: 10px; color: var(--texto3);
-  font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; margin-top: 4px;
-}
-.stat .si { font-size: 20px; margin-bottom: 6px; }
+    /* ── Stat boxes ──────────────────────────── */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat {
+      background: var(--bg2);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio-sm);
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: var(--sombra);
+      transition: border-color .2s;
+    }
+    .stat:hover { border-color: var(--verde); }
+    .stat .sv {
+      font-family: var(--font-d);
+      font-size: 20px; font-weight: 900;
+      line-height: 1; color: var(--texto);
+    }
+    .stat .sv.verde   { color: var(--verde); }
+    .stat .sv.rojo    { color: var(--rojo); }
+    .stat .sv.azul    { color: var(--azul); }
+    .stat .sv.amarillo{ color: var(--amarillo); }
+    .stat .sv.cian    { color: var(--cian); }
+    .stat .sl {
+      font-size: 10px; color: var(--texto3);
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; margin-top: 4px;
+    }
+    .stat .si { font-size: 20px; margin-bottom: 6px; }
 
-/* ── Balance card ────────────────────────── */
-.bal-card {
-  background: var(--verde);
-  border-radius: var(--radio);
-  padding: 20px 16px;
-  color: #fff;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 20px rgba(22,163,74,.3);
-}
-.bal-card.neg { background: var(--rojo); box-shadow: 0 4px 20px rgba(220,38,38,.3); }
-.bal-card.neu { background: var(--azul); box-shadow: 0 4px 20px rgba(37,99,235,.3); }
-.bal-monto {
-  font-family: var(--font-d);
-  font-size: 36px; font-weight: 900;
-  text-align: center; line-height: 1.1;
-  margin: 8px 0 4px;
-}
-.bal-label { font-size: 11px; opacity: .85; text-align: center; }
-.bal-row {
-  display: flex; gap: 12px; justify-content: center;
-  margin-top: 12px; padding-top: 12px;
-  border-top: 1px solid rgba(255,255,255,.25);
-}
-.bal-item { text-align: center; }
-.bal-item .bv {
-  font-family: var(--font-d); font-size: 16px;
-  font-weight: 900; line-height: 1;
-}
-.bal-item .bl { font-size: 10px; opacity: .8; margin-top: 2px; }
+    /* ── Balance card ────────────────────────── */
+    .bal-card {
+      background: var(--verde);
+      border-radius: var(--radio);
+      padding: 20px 16px;
+      color: #fff;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 20px rgba(22,163,74,.3);
+    }
+    .bal-card.neg { background: var(--rojo); box-shadow: 0 4px 20px rgba(220,38,38,.3); }
+    .bal-card.neu { background: var(--azul); box-shadow: 0 4px 20px rgba(37,99,235,.3); }
+    .bal-monto {
+      font-family: var(--font-d);
+      font-size: 36px; font-weight: 900;
+      text-align: center; line-height: 1.1;
+      margin: 8px 0 4px;
+    }
+    .bal-label { font-size: 11px; opacity: .85; text-align: center; }
+    .bal-row {
+      display: flex; gap: 12px; justify-content: center;
+      margin-top: 12px; padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.25);
+    }
+    .bal-item { text-align: center; }
+    .bal-item .bv {
+      font-family: var(--font-d); font-size: 16px;
+      font-weight: 900; line-height: 1;
+    }
+    .bal-item .bl { font-size: 10px; opacity: .8; margin-top: 2px; }
 
-/* ── Tabs ────────────────────────────────── */
-.tabs {
-  display: flex; background: var(--bg3);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio-sm);
-  padding: 3px; gap: 3px; margin-bottom: 12px;
-}
-.tab {
-  flex: 1; padding: 7px 6px;
-  border-radius: 8px; border: none; background: none;
-  font-size: 12px; font-weight: 700; color: var(--texto3);
-  cursor: pointer; transition: all .2s;
-  text-transform: uppercase; letter-spacing: .04em;
-}
-.tab.act { background: #fff; color: var(--verde); box-shadow: var(--sombra); }
+    /* ── Tabs ────────────────────────────────── */
+    .tabs {
+      display: flex; background: var(--bg3);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio-sm);
+      padding: 3px; gap: 3px; margin-bottom: 12px;
+    }
+    .tab {
+      flex: 1; padding: 7px 6px;
+      border-radius: 8px; border: none; background: none;
+      font-size: 12px; font-weight: 700; color: var(--texto3);
+      cursor: pointer; transition: all .2s;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .tab.act { background: #fff; color: var(--verde); box-shadow: var(--sombra); }
 
-/* ── Nav fecha ───────────────────────────── */
-.fecha-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--bg2); border: 1px solid var(--borde);
-  border-radius: var(--radio-sm); padding: 8px 12px;
-  margin-bottom: 12px; box-shadow: var(--sombra);
-}
-.fn-btn {
-  background: none; border: none;
-  color: var(--verde); font-size: 16px;
-  cursor: pointer; padding: 4px 8px;
-  border-radius: 6px; transition: background .2s;
-}
-.fn-btn:hover { background: var(--verde-l); }
-.fn-lbl {
-  font-family: var(--font-d);
-  font-size: 14px; font-weight: 800; color: var(--texto);
-}
+    /* ── Nav fecha ───────────────────────────── */
+    .fecha-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg2); border: 1px solid var(--borde);
+      border-radius: var(--radio-sm); padding: 8px 12px;
+      margin-bottom: 12px; box-shadow: var(--sombra);
+    }
+    .fn-btn {
+      background: none; border: none;
+      color: var(--verde); font-size: 16px;
+      cursor: pointer; padding: 4px 8px;
+      border-radius: 6px; transition: background .2s;
+    }
+    .fn-btn:hover { background: var(--verde-l); }
+    .fn-lbl {
+      font-family: var(--font-d);
+      font-size: 14px; font-weight: 800; color: var(--texto);
+    }
 
-/* ── Progreso ────────────────────────────── */
-.prog-wrap { margin-bottom: 8px; }
-.prog-top {
-  display: flex; justify-content: space-between;
-  font-size: 12px; color: var(--texto2); margin-bottom: 5px;
-}
-.prog-top strong { color: var(--verde); }
-.prog-track {
-  background: var(--bg3); border: 1px solid var(--borde);
-  border-radius: 100px; height: 10px; overflow: hidden;
-}
-.prog-fill {
-  height: 100%; border-radius: 100px;
-  background: var(--verde);
-  transition: width 1s cubic-bezier(.4,0,.2,1);
-}
-.prog-fill.rojo    { background: var(--rojo); }
-.prog-fill.amarillo{ background: var(--amarillo); }
-.prog-fill.azul    { background: var(--azul); }
-.prog-fill.cian    { background: var(--cian); }
+    /* ── Progreso ────────────────────────────── */
+    .prog-wrap { margin-bottom: 8px; }
+    .prog-top {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--texto2); margin-bottom: 5px;
+    }
+    .prog-top strong { color: var(--verde); }
+    .prog-track {
+      background: var(--bg3); border: 1px solid var(--borde);
+      border-radius: 100px; height: 10px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; border-radius: 100px;
+      background: var(--verde);
+      transition: width 1s cubic-bezier(.4,0,.2,1);
+    }
+    .prog-fill.rojo    { background: var(--rojo); }
+    .prog-fill.amarillo{ background: var(--amarillo); }
+    .prog-fill.azul    { background: var(--azul); }
+    .prog-fill.cian    { background: var(--cian); }
 
-/* ── Anillo SVG ──────────────────────────── */
-.ring-wrap {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 6px;
-}
-.ring { position: relative; }
-.ring svg { transform: rotate(-90deg); }
-.ring circle.bg { fill: none; stroke: var(--borde); }
-.ring circle.fill {
-  fill: none; stroke-linecap: round;
-  transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
-}
-.ring .rpct {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-d); font-weight: 900;
-}
+    /* ── Anillo SVG ──────────────────────────── */
+    .ring-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+    }
+    .ring { position: relative; }
+    .ring svg { transform: rotate(-90deg); }
+    .ring circle.bg { fill: none; stroke: var(--borde); }
+    .ring circle.fill {
+      fill: none; stroke-linecap: round;
+      transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .ring .rpct {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-d); font-weight: 900;
+    }
 
-/* ── Botones de movimiento ───────────────── */
-.mov-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 8px; padding: 4px 0;
-}
-.mb {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 5px;
-  border: none; border-radius: var(--radio-sm);
-  padding: 12px 6px;
-  font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .03em;
-  cursor: pointer; transition: all .18s;
-  color: #fff;
-}
-.mb i { font-size: 18px; }
-.mb:hover { transform: scale(1.04); }
-.mb:active { transform: scale(.97); }
-.mb.uber      { background: #1c1c1c; }
-.mb.didi      { background: #ff6900; }
-.mb.indrive   { background: #1a7a2e; }
-.mb.efectivo  { background: #16a34a; }
-.mb.propina   { background: #7c3aed; }
-.mb.particular{ background: #2563eb; }
-.mb.gasolina  { background: #dc2626; }
-.mb.lavado    { background: #0891b2; }
-.mb.comida    { background: #d97706; }
-.mb.taller    { background: #1d4ed8; }
-.mb.impuestos { background: #475569; }
-.mb.otros     { background: #78716c; }
+    /* ── Botones de movimiento ───────────────── */
+    .mov-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 8px; padding: 4px 0;
+    }
+    .mb {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+      border: none; border-radius: var(--radio-sm);
+      padding: 12px 6px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .03em;
+      cursor: pointer; transition: all .18s;
+      color: #fff;
+    }
+    .mb i { font-size: 18px; }
+    .mb:hover { transform: scale(1.04); }
+    .mb:active { transform: scale(.97); }
+    .mb.uber      { background: #1c1c1c; }
+    .mb.didi      { background: #ff6900; }
+    .mb.indrive   { background: #1a7a2e; }
+    .mb.efectivo  { background: #16a34a; }
+    .mb.propina   { background: #7c3aed; }
+    .mb.particular{ background: #2563eb; }
+    .mb.gasolina  { background: #dc2626; }
+    .mb.lavado    { background: #0891b2; }
+    .mb.comida    { background: #d97706; }
+    .mb.taller    { background: #1d4ed8; }
+    .mb.impuestos { background: #475569; }
+    .mb.otros     { background: #78716c; }
 
-/* ── Historial items ─────────────────────── */
-.hitem {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--borde);
-  transition: background .15s;
-}
-.hitem:last-child { border-bottom: none; }
-.hitem:hover { background: var(--bg3); }
-.hitem .hico {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
-.hitem .hinfo { flex: 1; min-width: 0; }
-.hitem .ht {
-  font-size: 13px; font-weight: 700;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.hitem .hs { font-size: 11px; color: var(--texto3); margin-top: 1px; }
-.hitem .hm {
-  font-family: var(--font-d); font-size: 15px;
-  font-weight: 900; white-space: nowrap; text-align: right;
-}
-.hitem .hm.ing { color: var(--verde); }
-.hitem .hm.gas { color: var(--rojo); }
+    /* ── Historial items ─────────────────────── */
+    .hitem {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--borde);
+      transition: background .15s;
+    }
+    .hitem:last-child { border-bottom: none; }
+    .hitem:hover { background: var(--bg3); }
+    .hitem .hico {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .hitem .hinfo { flex: 1; min-width: 0; }
+    .hitem .ht {
+      font-size: 13px; font-weight: 700;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .hitem .hs { font-size: 11px; color: var(--texto3); margin-top: 1px; }
+    .hitem .hm {
+      font-family: var(--font-d); font-size: 15px;
+      font-weight: 900; white-space: nowrap; text-align: right;
+    }
+    .hitem .hm.ing { color: var(--verde); }
+    .hitem .hm.gas { color: var(--rojo); }
 
-/* ── Botones generales ───────────────────── */
-.btn-v {
-  background: var(--verde); color: #fff;
-  font-weight: 700; font-family: var(--font-b);
-  border: none; border-radius: var(--radio-sm);
-  padding: 11px 18px; font-size: 13px;
-  cursor: pointer; transition: all .2s;
-  display: inline-flex; align-items: center; gap: 6px;
-}
-.btn-v:hover { background: #15803d; transform: translateY(-1px); }
-.btn-v:active { transform: translateY(0); }
+    /* ── Botones generales ───────────────────── */
+    .btn-v {
+      background: var(--verde); color: #fff;
+      font-weight: 700; font-family: var(--font-b);
+      border: none; border-radius: var(--radio-sm);
+      padding: 11px 18px; font-size: 13px;
+      cursor: pointer; transition: all .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-v:hover { background: #15803d; transform: translateY(-1px); }
+    .btn-v:active { transform: translateY(0); }
 
-.btn-o {
-  background: #fff; color: var(--texto);
-  border: 1px solid var(--borde2);
-  border-radius: var(--radio-sm);
-  padding: 10px 18px; font-size: 13px;
-  font-family: var(--font-b); font-weight: 600;
-  cursor: pointer; transition: all .2s;
-}
-.btn-o:hover { border-color: var(--verde); color: var(--verde); }
+    .btn-o {
+      background: #fff; color: var(--texto);
+      border: 1px solid var(--borde2);
+      border-radius: var(--radio-sm);
+      padding: 10px 18px; font-size: 13px;
+      font-family: var(--font-b); font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-o:hover { border-color: var(--verde); color: var(--verde); }
 
-.btn-ico {
-  background: var(--bg3); border: 1px solid var(--borde);
-  border-radius: 7px; padding: 5px 9px;
-  font-size: 12px; color: var(--texto3);
-  cursor: pointer; transition: all .17s;
-}
-.btn-ico:hover { color: var(--verde); border-color: var(--verde); background: var(--verde-l); }
+    .btn-ico {
+      background: var(--bg3); border: 1px solid var(--borde);
+      border-radius: 7px; padding: 5px 9px;
+      font-size: 12px; color: var(--texto3);
+      cursor: pointer; transition: all .17s;
+    }
+    .btn-ico:hover { color: var(--verde); border-color: var(--verde); background: var(--verde-l); }
 
-/* ── Inputs ──────────────────────────────── */
-.inp {
-  width: 100%;
-  background: var(--bg3) !important;
-  border: 1.5px solid var(--borde2) !important;
-  border-radius: var(--radio-sm) !important;
-  color: var(--texto) !important;
-  font-family: var(--font-b) !important;
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  outline: none;
-  transition: border-color .2s !important;
-}
-.inp:focus {
-  border-color: var(--verde) !important;
-  background: #fff !important;
-  box-shadow: 0 0 0 3px rgba(22,163,74,.1) !important;
-}
-.inp-lbl {
-  font-size: 11px; color: var(--texto2);
-  font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; margin-bottom: 5px; display: block;
-}
-select.inp option { background: #fff; color: var(--texto); }
+    /* ── Inputs ──────────────────────────────── */
+    .inp {
+      width: 100%;
+      background: var(--bg3) !important;
+      border: 1.5px solid var(--borde2) !important;
+      border-radius: var(--radio-sm) !important;
+      color: var(--texto) !important;
+      font-family: var(--font-b) !important;
+      padding: 10px 14px !important;
+      font-size: 14px !important;
+      outline: none;
+      transition: border-color .2s !important;
+    }
+    .inp:focus {
+      border-color: var(--verde) !important;
+      background: #fff !important;
+      box-shadow: 0 0 0 3px rgba(22,163,74,.1) !important;
+    }
+    .inp-lbl {
+      font-size: 11px; color: var(--texto2);
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 5px; display: block;
+    }
+    select.inp option { background: #fff; color: var(--texto); }
 
-/* ── Sección título ──────────────────────── */
-.sec-tit {
-  font-family: var(--font-d);
-  font-size: 15px; font-weight: 900;
-  color: var(--texto); margin-bottom: 10px;
-  display: flex; align-items: center; gap: 7px;
-}
-.sec-tit i { color: var(--verde); }
+    /* ── Sección título ──────────────────────── */
+    .sec-tit {
+      font-family: var(--font-d);
+      font-size: 15px; font-weight: 900;
+      color: var(--texto); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .sec-tit i { color: var(--verde); }
 
-/* ── Calendario ──────────────────────────── */
-.cal-wrap { padding: 10px; overflow-x: auto; }
-.cal-grid {
-  display: grid; grid-template-columns: repeat(7,1fr);
-  gap: 3px; min-width: 245px;
-}
-.cal-hdr {
-  text-align: center; font-size: 9px; font-weight: 800;
-  color: var(--texto3); padding: 4px 0;
-  text-transform: uppercase; letter-spacing: .08em;
-}
-.cal-hdr.dom { color: var(--rojo); }
-.cal-d {
-  position: relative; aspect-ratio: 1;
-  border-radius: 8px; border: 1.5px solid transparent;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  min-height: 38px; transition: all .15s;
-  user-select: none; cursor: default;
-}
-.cal-d .cn { font-size: 12px; font-weight: 700; line-height: 1; }
-.cal-d .ci { font-size: 10px; margin-top: 2px; }
+    /* ── Calendario ──────────────────────────── */
+    .cal-wrap { padding: 10px; overflow-x: auto; }
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      gap: 3px; min-width: 245px;
+    }
+    .cal-hdr {
+      text-align: center; font-size: 9px; font-weight: 800;
+      color: var(--texto3); padding: 4px 0;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    .cal-hdr.dom { color: var(--rojo); }
+    .cal-d {
+      position: relative; aspect-ratio: 1;
+      border-radius: 8px; border: 1.5px solid transparent;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 38px; transition: all .15s;
+      user-select: none; cursor: default;
+    }
+    .cal-d .cn { font-size: 12px; font-weight: 700; line-height: 1; }
+    .cal-d .ci { font-size: 10px; margin-top: 2px; }
 
-.cal-d.vac   { background: transparent; border-color: transparent; }
-.cal-d.lp    { background: var(--bg3); border-color: var(--borde); }
-.cal-d.hoy   {
-  border-color: var(--verde) !important;
-  background: var(--verde-l) !important;
-  cursor: pointer; animation: pulso 2.5s ease-in-out infinite;
-}
-.cal-d.hoy .cn { color: var(--verde); font-weight: 900; }
-.cal-d.hoy::after {
-  content: ''; position: absolute; bottom: 3px; left: 50%;
-  transform: translateX(-50%);
-  width: 4px; height: 4px; border-radius: 50%; background: var(--verde);
-}
-.cal-d.tsi { background: var(--verde-l); border-color: rgba(22,163,74,.4); }
-.cal-d.tno { background: var(--rojo-l);  border-color: rgba(220,38,38,.3); }
-.cal-d.tno .cn { color: rgba(220,38,38,.6); }
-.cal-d.fest { background: var(--amarillo-l); border-color: rgba(217,119,6,.3); }
-.cal-d.fest .cn { color: var(--amarillo); }
-.cal-d.ddom { background: var(--rojo-l); border-color: rgba(220,38,38,.15); }
-.cal-d.ddom .cn { color: rgba(220,38,38,.45); }
-.cal-d.fut  { opacity: .4; }
+    .cal-d.vac   { background: transparent; border-color: transparent; }
+    .cal-d.lp    { background: var(--bg3); border-color: var(--borde); }
+    .cal-d.hoy   {
+      border-color: var(--verde) !important;
+      background: var(--verde-l) !important;
+      cursor: pointer; animation: pulso 2.5s ease-in-out infinite;
+    }
+    .cal-d.hoy .cn { color: var(--verde); font-weight: 900; }
+    .cal-d.hoy::after {
+      content: ''; position: absolute; bottom: 3px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--verde);
+    }
+    .cal-d.tsi { background: var(--verde-l); border-color: rgba(22,163,74,.4); }
+    .cal-d.tno { background: var(--rojo-l);  border-color: rgba(220,38,38,.3); }
+    .cal-d.tno .cn { color: rgba(220,38,38,.6); }
+    .cal-d.fest { background: var(--amarillo-l); border-color: rgba(217,119,6,.3); }
+    .cal-d.fest .cn { color: var(--amarillo); }
+    .cal-d.ddom { background: var(--rojo-l); border-color: rgba(220,38,38,.15); }
+    .cal-d.ddom .cn { color: rgba(220,38,38,.45); }
+    .cal-d.fut  { opacity: .4; }
 
-@keyframes pulso {
-  0%,100% { box-shadow: 0 0 0 0 rgba(22,163,74,.4); }
-  50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
-}
+    @keyframes pulso {
+      0%,100% { box-shadow: 0 0 0 0 rgba(22,163,74,.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+    }
 
-.ley {
-  display: flex; flex-wrap: wrap; gap: 6px 14px;
-  padding: 10px 14px; border-top: 1px solid var(--borde);
-}
-.li { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--texto3); }
-.lpun { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+    .ley {
+      display: flex; flex-wrap: wrap; gap: 6px 14px;
+      padding: 10px 14px; border-top: 1px solid var(--borde);
+    }
+    .li { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--texto3); }
+    .lpun { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── Grafs tabs ──────────────────────────── */
-.gtabs {
-  display: flex; gap: 0;
-  border-bottom: 2px solid var(--borde);
-  margin-bottom: 12px;
-}
-.gtab {
-  font-size: 12px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: var(--texto3); padding: 8px 14px;
-  border: none; background: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer; transition: all .2s;
-  margin-bottom: -2px;
-}
-.gtab.act { color: var(--verde); border-bottom-color: var(--verde); }
+    /* ── Grafs tabs ──────────────────────────── */
+    .gtabs {
+      display: flex; gap: 0;
+      border-bottom: 2px solid var(--borde);
+      margin-bottom: 12px;
+    }
+    .gtab {
+      font-size: 12px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: var(--texto3); padding: 8px 14px;
+      border: none; background: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer; transition: all .2s;
+      margin-bottom: -2px;
+    }
+    .gtab.act { color: var(--verde); border-bottom-color: var(--verde); }
 
-/* ── Barras de gráfica ───────────────────── */
-.bar-row {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
-}
-.bar-lbl { font-size: 10px; color: var(--texto3); width: 52px; text-align: right; flex-shrink: 0; }
-.bar-track {
-  flex: 1; background: var(--bg3); border: 1px solid var(--borde);
-  border-radius: 100px; height: 18px; overflow: hidden;
-}
-.bar-fill {
-  height: 100%; border-radius: 100px;
-  display: flex; align-items: center; justify-content: flex-end;
-  padding-right: 6px; font-size: 10px; font-weight: 700;
-  transition: width .8s ease;
-}
-.bar-val { font-size: 10px; color: var(--texto3); width: 72px; flex-shrink: 0; }
+    /* ── Barras de gráfica ───────────────────── */
+    .bar-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    }
+    .bar-lbl { font-size: 10px; color: var(--texto3); width: 52px; text-align: right; flex-shrink: 0; }
+    .bar-track {
+      flex: 1; background: var(--bg3); border: 1px solid var(--borde);
+      border-radius: 100px; height: 18px; overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 100px;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 6px; font-size: 10px; font-weight: 700;
+      transition: width .8s ease;
+    }
+    .bar-val { font-size: 10px; color: var(--texto3); width: 72px; flex-shrink: 0; }
 
-/* ── Donut legend ────────────────────────── */
-.donut-wrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.donut-leg { flex: 1; min-width: 120px; }
-.dleg-item { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 12px; }
-.dleg-dot  { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    /* ── Donut legend ────────────────────────── */
+    .donut-wrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .donut-leg { flex: 1; min-width: 120px; }
+    .dleg-item { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 12px; }
+    .dleg-dot  { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── Combustible ─────────────────────────── */
-.fuel-stat {
-  background: var(--bg2); border: 1px solid var(--borde);
-  border-radius: var(--radio-sm); padding: 14px 10px;
-  text-align: center; box-shadow: var(--sombra);
-}
-.fuel-stat .fv {
-  font-family: var(--font-d); font-size: 22px;
-  font-weight: 900; color: var(--cian);
-}
-.fuel-stat .fl {
-  font-size: 10px; color: var(--texto3);
-  text-transform: uppercase; letter-spacing: .06em; margin-top: 3px;
-}
-.fuel-stat .fs { font-size: 11px; color: var(--texto3); margin-top: 3px; }
+    /* ── Combustible ─────────────────────────── */
+    .fuel-stat {
+      background: var(--bg2); border: 1px solid var(--borde);
+      border-radius: var(--radio-sm); padding: 14px 10px;
+      text-align: center; box-shadow: var(--sombra);
+    }
+    .fuel-stat .fv {
+      font-family: var(--font-d); font-size: 22px;
+      font-weight: 900; color: var(--cian);
+    }
+    .fuel-stat .fl {
+      font-size: 10px; color: var(--texto3);
+      text-transform: uppercase; letter-spacing: .06em; margin-top: 3px;
+    }
+    .fuel-stat .fs { font-size: 11px; color: var(--texto3); margin-top: 3px; }
 
-.efic-bar {
-  position: relative; height: 14px; border-radius: 100px;
-  overflow: hidden; margin: 6px 0;
-  background: linear-gradient(90deg,var(--rojo) 0%,var(--amarillo) 50%,var(--verde) 100%);
-}
-.efic-mark {
-  position: absolute; top: 0; bottom: 0; width: 3px;
-  background: var(--texto); border-radius: 2px;
-  transform: translateX(-50%); transition: left .8s ease;
-  box-shadow: 0 0 4px rgba(0,0,0,.4);
-}
+    .efic-bar {
+      position: relative; height: 14px; border-radius: 100px;
+      overflow: hidden; margin: 6px 0;
+      background: linear-gradient(90deg,var(--rojo) 0%,var(--amarillo) 50%,var(--verde) 100%);
+    }
+    .efic-mark {
+      position: absolute; top: 0; bottom: 0; width: 3px;
+      background: var(--texto); border-radius: 2px;
+      transform: translateX(-50%); transition: left .8s ease;
+      box-shadow: 0 0 4px rgba(0,0,0,.4);
+    }
 
-/* ── Tabla ───────────────────────────────── */
-.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
-.tbl th {
-  font-size: 10px; color: var(--texto3); font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em;
-  padding: 8px 14px; border-bottom: 1px solid var(--borde);
-  background: var(--bg3);
-}
-.tbl td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--borde); vertical-align: middle;
-}
-.tbl tr:last-child td { border-bottom: none; }
-.tbl tr:hover td { background: var(--bg3); }
+    /* ── Tabla ───────────────────────────────── */
+    .tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+    .tbl th {
+      font-size: 10px; color: var(--texto3); font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 8px 14px; border-bottom: 1px solid var(--borde);
+      background: var(--bg3);
+    }
+    .tbl td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--borde); vertical-align: middle;
+    }
+    .tbl tr:last-child td { border-bottom: none; }
+    .tbl tr:hover td { background: var(--bg3); }
 
-/* ── Modo cards ──────────────────────────── */
-.modo-card {
-  background: var(--bg2); border: 2px solid var(--borde);
-  border-radius: var(--radio); padding: 16px;
-  cursor: pointer; transition: all .2s; text-align: center;
-}
-.modo-card:hover, .modo-card.act {
-  border-color: var(--verde); background: var(--verde-l);
-  transform: translateY(-2px); box-shadow: var(--sombra2);
-}
-.modo-card .mc-ico { font-size: 32px; }
-.modo-card .mct {
-  font-family: var(--font-d); font-size: 14px;
-  font-weight: 800; margin-top: 6px;
-}
-.modo-card .mcd { font-size: 11px; color: var(--texto3); margin-top: 3px; }
+    /* ── Modo cards ──────────────────────────── */
+    .modo-card {
+      background: var(--bg2); border: 2px solid var(--borde);
+      border-radius: var(--radio); padding: 16px;
+      cursor: pointer; transition: all .2s; text-align: center;
+    }
+    .modo-card:hover, .modo-card.act {
+      border-color: var(--verde); background: var(--verde-l);
+      transform: translateY(-2px); box-shadow: var(--sombra2);
+    }
+    .modo-card .mc-ico { font-size: 32px; }
+    .modo-card .mct {
+      font-family: var(--font-d); font-size: 14px;
+      font-weight: 800; margin-top: 6px;
+    }
+    .modo-card .mcd { font-size: 11px; color: var(--texto3); margin-top: 3px; }
 
-/* ── Modal ───────────────────────────────── */
-.modal-content {
-  background: var(--bg2) !important;
-  border: 1px solid var(--borde) !important;
-  border-radius: 18px !important;
-}
-.modal-header {
-  background: var(--bg3) !important;
-  border-bottom: 1px solid var(--borde) !important;
-  padding: 16px 20px !important;
-}
-.modal-title {
-  font-family: var(--font-d) !important;
-  font-size: 16px !important; font-weight: 800 !important;
-  color: var(--texto) !important;
-}
-.modal-body   { padding: 20px !important; }
-.modal-footer { border-top: 1px solid var(--borde) !important; padding: 14px 20px !important; }
+    /* ── Modal ───────────────────────────────── */
+    .modal-content {
+      background: var(--bg2) !important;
+      border: 1px solid var(--borde) !important;
+      border-radius: 18px !important;
+    }
+    .modal-header {
+      background: var(--bg3) !important;
+      border-bottom: 1px solid var(--borde) !important;
+      padding: 16px 20px !important;
+    }
+    .modal-title {
+      font-family: var(--font-d) !important;
+      font-size: 16px !important; font-weight: 800 !important;
+      color: var(--texto) !important;
+    }
+    .modal-body   { padding: 20px !important; }
+    .modal-footer { border-top: 1px solid var(--borde) !important; padding: 14px 20px !important; }
 
-/* ── SweetAlert tema claro ───────────────── */
-.swal2-popup {
-  background: var(--bg2) !important;
-  border: 1px solid var(--borde) !important;
-  border-radius: 18px !important;
-  font-family: var(--font-b) !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,.15) !important;
-}
-.swal2-title { color: var(--texto) !important; font-family: var(--font-d) !important; font-weight: 900 !important; }
-.swal2-html-container { color: var(--texto2) !important; }
-.swal2-confirm {
-  background: var(--verde) !important; color: #fff !important;
-  font-weight: 700 !important; border-radius: 10px !important;
-  font-family: var(--font-b) !important;
-}
-.swal2-deny, .swal2-cancel {
-  background: var(--bg3) !important;
-  border: 1.5px solid var(--borde2) !important;
-  color: var(--texto) !important; border-radius: 10px !important;
-  font-family: var(--font-b) !important;
-}
-.swal2-input, .swal2-select {
-  background: var(--bg3) !important;
-  border: 1.5px solid var(--borde2) !important;
-  color: var(--texto) !important; border-radius: 10px !important;
-  font-family: var(--font-b) !important;
-}
-.swal2-input:focus, .swal2-select:focus {
-  border-color: var(--verde) !important;
-  box-shadow: 0 0 0 3px rgba(22,163,74,.15) !important;
-}
+    /* ── SweetAlert tema claro ───────────────── */
+    .swal2-popup {
+      background: var(--bg2) !important;
+      border: 1px solid var(--borde) !important;
+      border-radius: 18px !important;
+      font-family: var(--font-b) !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,.15) !important;
+    }
+    .swal2-title { color: var(--texto) !important; font-family: var(--font-d) !important; font-weight: 900 !important; }
+    .swal2-html-container { color: var(--texto2) !important; }
+    .swal2-confirm {
+      background: var(--verde) !important; color: #fff !important;
+      font-weight: 700 !important; border-radius: 10px !important;
+      font-family: var(--font-b) !important;
+    }
+    .swal2-deny, .swal2-cancel {
+      background: var(--bg3) !important;
+      border: 1.5px solid var(--borde2) !important;
+      color: var(--texto) !important; border-radius: 10px !important;
+      font-family: var(--font-b) !important;
+    }
+    .swal2-input, .swal2-select {
+      background: var(--bg3) !important;
+      border: 1.5px solid var(--borde2) !important;
+      color: var(--texto) !important; border-radius: 10px !important;
+      font-family: var(--font-b) !important;
+    }
+    .swal2-input:focus, .swal2-select:focus {
+      border-color: var(--verde) !important;
+      box-shadow: 0 0 0 3px rgba(22,163,74,.15) !important;
+    }
 
-/* ── Analisis card ───────────────────────── */
-.anal-card {
-  background: var(--verde-l);
-  border: 1px solid rgba(22,163,74,.3);
-  border-radius: var(--radio-sm);
-  padding: 12px 14px; margin-bottom: 10px;
-  font-size: 13px; color: var(--verde);
-}
-.anal-card.rojo   { background: var(--rojo-l);    border-color: rgba(220,38,38,.3);  color: var(--rojo); }
-.anal-card.amarillo{background: var(--amarillo-l); border-color: rgba(217,119,6,.3);  color: var(--amarillo); }
-.anal-card.azul   { background: var(--azul-l);    border-color: rgba(37,99,235,.3);  color: var(--azul); }
+    /* ── Analisis card ───────────────────────── */
+    .anal-card {
+      background: var(--verde-l);
+      border: 1px solid rgba(22,163,74,.3);
+      border-radius: var(--radio-sm);
+      padding: 12px 14px; margin-bottom: 10px;
+      font-size: 13px; color: var(--verde);
+    }
+    .anal-card.rojo   { background: var(--rojo-l);    border-color: rgba(220,38,38,.3);  color: var(--rojo); }
+    .anal-card.amarillo{background: var(--amarillo-l); border-color: rgba(217,119,6,.3);  color: var(--amarillo); }
+    .anal-card.azul   { background: var(--azul-l);    border-color: rgba(37,99,235,.3);  color: var(--azul); }
 
-/* ── Scrollbar ───────────────────────────── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: var(--bg3); }
-::-webkit-scrollbar-thumb { background: var(--borde2); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--verde); }
+    /* ── Scrollbar ───────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg3); }
+    ::-webkit-scrollbar-thumb { background: var(--borde2); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--verde); }
 
-/* ── Utilities ───────────────────────────── */
-.t-v { color: var(--verde) !important; }
-.t-r { color: var(--rojo) !important; }
-.t-y { color: var(--amarillo) !important; }
-.t-c { color: var(--cian) !important; }
-.t-d { color: var(--texto3) !important; }
-.t-2 { color: var(--texto2) !important; }
-.fw7 { font-weight: 700; }
-.fw8 { font-weight: 800; }
-.fw9 { font-weight: 900; }
-.ffD { font-family: var(--font-d) !important; }
-.fs12{ font-size: 12px; }
-.fs11{ font-size: 11px; }
-.div-sep { border-color: var(--borde) !important; margin: 14px 0 !important; }
+    /* ── Utilities ───────────────────────────── */
+    .t-v { color: var(--verde) !important; }
+    .t-r { color: var(--rojo) !important; }
+    .t-y { color: var(--amarillo) !important; }
+    .t-c { color: var(--cian) !important; }
+    .t-d { color: var(--texto3) !important; }
+    .t-2 { color: var(--texto2) !important; }
+    .fw7 { font-weight: 700; }
+    .fw8 { font-weight: 800; }
+    .fw9 { font-weight: 900; }
+    .ffD { font-family: var(--font-d) !important; }
+    .fs12{ font-size: 12px; }
+    .fs11{ font-size: 11px; }
+    .div-sep { border-color: var(--borde) !important; margin: 14px 0 !important; }
 
-/* ── Responsive ──────────────────────────── */
-@media (max-width: 380px) {
-  .bal-monto  { font-size: 30px; }
-  .mb         { padding: 10px 4px; font-size: 10px; }
-  .mb i       { font-size: 16px; }
-  .stat .sv   { font-size: 17px; }
-  .cal-d      { min-height: 34px; }
-  .cal-d .cn  { font-size: 11px; }
-}
-</style>
+    /* ── Responsive ──────────────────────────── */
+    @media (max-width: 380px) {
+      .bal-monto  { font-size: 30px; }
+      .mb         { padding: 10px 4px; font-size: 10px; }
+      .mb i       { font-size: 16px; }
+      .stat .sv   { font-size: 17px; }
+      .cal-d      { min-height: 34px; }
+      .cal-d .cn  { font-size: 11px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -1719,197 +1719,197 @@ select.inp option { background: #fff; color: var(--texto); }
 <script src="festivos.js"></script>
 <script src="firebase-config.js"></script>
 <script>
-    'use strict';
+  'use strict';
 
-    // ══════════════════════════════════════════════════
-    // FIREBASE — UNA SOLA INICIALIZACIÓN
-    // ══════════════════════════════════════════════════
-    if (!firebase.apps.length) {
-        firebase.initializeApp(window.FIREBASE_CONFIG);
-    }
-    const DB = firebase.firestore();
-    const C = { cfg: 'config', movs: 'movimientos', registros: 'registros', aportes: 'aportes', combustible: 'combustible' };
+  // ══════════════════════════════════════════════════
+  // FIREBASE — UNA SOLA INICIALIZACIÓN
+  // ══════════════════════════════════════════════════
+  if (!firebase.apps.length) {
+    firebase.initializeApp(window.FIREBASE_CONFIG);
+  }
+  const DB = firebase.firestore();
+  const C = { cfg: 'config', movs: 'movimientos', registros: 'registros', aportes: 'aportes', combustible: 'combustible' };
 
-    // ══════════════════════════════════════════════════
-    // ESTADO GLOBAL
-    // ══════════════════════════════════════════════════
-    const APP = {
-        cfg: {
-            modo: '',
-            meta_dia: 0,
-            meta_semana: 0,
-            meta_mes: 0,
-            renta: 60000,
-            datos: 20000,
-            seguro: 0,
-            desgaste: 0,
-            cuota_alquiler: 0,
-            cuota_vehiculo: 0,
-            cuota_diaria_ahorro: 0,
-            precio_gasolina: 4500,
-            rendimiento_kmL: 9,
-            meta_ahorro: 4000000,
-            cfg_alquiler_ok: false,
-            cfg_ahorro_ok: false,
-        },
-        hoy: toYMD(new Date()),
-        anio: new Date().getFullYear(),
-        mes: new Date().getMonth() + 1,
-        periodo: 'dia',
-        fechaNav: toYMD(new Date()),
-        fechaMovs: toYMD(new Date()),
-        grafTab: 'balance',
-        grafPer: 'dia',
-        movimientos: [],
-        aportes: [],
-        cargas: [],
-        estadoHoy: { reg: null, completo: false, esNoLab: false },
-        modales: {}
-    };
+  // ══════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ══════════════════════════════════════════════════
+  const APP = {
+    cfg: {
+      modo: '',
+      meta_dia: 0,
+      meta_semana: 0,
+      meta_mes: 0,
+      renta: 60000,
+      datos: 20000,
+      seguro: 0,
+      desgaste: 0,
+      cuota_alquiler: 0,
+      cuota_vehiculo: 0,
+      cuota_diaria_ahorro: 0,
+      precio_gasolina: 4500,
+      rendimiento_kmL: 9,
+      meta_ahorro: 4000000,
+      cfg_alquiler_ok: false,
+      cfg_ahorro_ok: false,
+    },
+    hoy: toYMD(new Date()),
+    anio: new Date().getFullYear(),
+    mes: new Date().getMonth() + 1,
+    periodo: 'dia',
+    fechaNav: toYMD(new Date()),
+    fechaMovs: toYMD(new Date()),
+    grafTab: 'balance',
+    grafPer: 'dia',
+    movimientos: [],
+    aportes: [],
+    cargas: [],
+    estadoHoy: { reg: null, completo: false, esNoLab: false },
+    modales: {}
+  };
 
-    // ══════════════════════════════════════════════════
-    // ARRANQUE
-    // ══════════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', async () => {
-        document.getElementById('inicio-fecha').textContent = new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+  // ══════════════════════════════════════════════════
+  // ARRANQUE
+  // ══════════════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('inicio-fecha').textContent = new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
 
-        ['mdMov','mdComb','mdMetas','mdCostos','mdCfgAlq','mdCfgAho','mdAuto','mdMeta','mdAporte'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) APP.modales[id] = new bootstrap.Modal(el);
-        });
+    ['mdMov','mdComb','mdMetas','mdCostos','mdCfgAlq','mdCfgAho','mdAuto','mdMeta','mdAporte'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) APP.modales[id] = new bootstrap.Modal(el);
+    });
 
-        document.getElementById('mov-fecha').value = APP.hoy;
-        document.getElementById('c-fecha').value = APP.hoy;
-        document.getElementById('ap-fecha').value = APP.hoy;
+    document.getElementById('mov-fecha').value = APP.hoy;
+    document.getElementById('c-fecha').value = APP.hoy;
+    document.getElementById('ap-fecha').value = APP.hoy;
 
-        ['c-gal','c-precio','c-km'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.addEventListener('input', prevCombustible);
-        });
+    ['c-gal','c-precio','c-km'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', prevCombustible);
+    });
 
-        llenarFiltroMeses();
+    llenarFiltroMeses();
 
-        try {
-            await cargarCfg();
+    try {
+      await cargarCfg();
 
-            // CORRECCIÓN CLAVE: detecta modo vacío guardado en Firebase
-            if (!APP.cfg.modo || APP.cfg.modo.trim() === '') {
-                await pedirModo();
-                await cargarCfg();
-            }
+      // CORRECCIÓN CLAVE: detecta modo vacío guardado en Firebase
+      if (!APP.cfg.modo || APP.cfg.modo.trim() === '') {
+        await pedirModo();
+        await cargarCfg();
+      }
 
-            if (APP.cfg.modo === 'alquiler_diario' && !APP.cfg.cfg_alquiler_ok) {
-                await pedirCuotaAlquiler();
-                await cargarCfg();
-            }
-            if (APP.cfg.modo === 'ahorro_carro' && !APP.cfg.cfg_ahorro_ok) {
-                await pedirCuotaAhorro();
-                await cargarCfg();
-            }
+      if (APP.cfg.modo === 'alquiler_diario' && !APP.cfg.cfg_alquiler_ok) {
+        await pedirCuotaAlquiler();
+        await cargarCfg();
+      }
+      if (APP.cfg.modo === 'ahorro_carro' && !APP.cfg.cfg_ahorro_ok) {
+        await pedirCuotaAhorro();
+        await cargarCfg();
+      }
 
-            aplicarModo(APP.cfg.modo);
+      aplicarModo(APP.cfg.modo);
 
-            await Promise.all([cargarMovs(), cargarAportes(), cargarCargas(), verificarHoy()]);
+      await Promise.all([cargarMovs(), cargarAportes(), cargarCargas(), verificarHoy()]);
 
-            renderTodo();
+      renderTodo();
 
-            if (!APP.estadoHoy.completo && !APP.estadoHoy.esNoLab) {
-                setTimeout(() => iniciarRegistro(), 800);
-            }
+      if (!APP.estadoHoy.completo && !APP.estadoHoy.esNoLab) {
+        setTimeout(() => iniciarRegistro(), 800);
+      }
 
-            document.getElementById('spinner').style.display = 'none';
+      document.getElementById('spinner').style.display = 'none';
 
-        } catch (e) {
-            console.error(e);
-            document.getElementById('spinner').innerHTML = `
+    } catch (e) {
+      console.error(e);
+      document.getElementById('spinner').innerHTML = `
       <div style="text-align:center;max-width:300px;padding:24px">
         <i class="fa-solid fa-triangle-exclamation" style="font-size:40px;color:var(--rojo)"></i>
         <p style="color:var(--rojo);margin-top:12px;font-weight:700">Error al conectar</p>
         <p style="color:var(--texto3);font-size:12px;margin-top:6px">Revisa firebase-config.js y las reglas de Firestore.</p>
         <code style="color:var(--texto3);font-size:11px">${e.message}</code>
       </div>`;
-        }
-    });
-
-    // ══════════════════════════════════════════════════
-    // FIREBASE CRUD
-    // ══════════════════════════════════════════════════
-    async function cargarCfg() {
-        const s = await DB.collection(C.cfg).doc('app').get();
-        if (s.exists) Object.assign(APP.cfg, s.data());
     }
+  });
 
-    async function setCfg(d) {
-        await DB.collection(C.cfg).doc('app').set(d, { merge: true });
-        Object.assign(APP.cfg, d);
-    }
+  // ══════════════════════════════════════════════════
+  // FIREBASE CRUD
+  // ══════════════════════════════════════════════════
+  async function cargarCfg() {
+    const s = await DB.collection(C.cfg).doc('app').get();
+    if (s.exists) Object.assign(APP.cfg, s.data());
+  }
 
-    async function cargarMovs() {
-        const s = await DB.collection(C.movs).orderBy('fecha','desc').get();
-        APP.movimientos = s.docs.map(d => ({ id: d.id, ...d.data() }));
-    }
+  async function setCfg(d) {
+    await DB.collection(C.cfg).doc('app').set(d, { merge: true });
+    Object.assign(APP.cfg, d);
+  }
 
-    async function cargarAportes() {
-        const s = await DB.collection(C.aportes).orderBy('fecha','desc').get();
-        APP.aportes = s.docs.map(d => ({ id: d.id, ...d.data() }));
-    }
+  async function cargarMovs() {
+    const s = await DB.collection(C.movs).orderBy('fecha','desc').get();
+    APP.movimientos = s.docs.map(d => ({ id: d.id, ...d.data() }));
+  }
 
-    async function cargarCargas() {
-        const s = await DB.collection(C.combustible).orderBy('fecha','desc').get();
-        APP.cargas = s.docs.map(d => ({ id: d.id, ...d.data() }));
-    }
+  async function cargarAportes() {
+    const s = await DB.collection(C.aportes).orderBy('fecha','desc').get();
+    APP.aportes = s.docs.map(d => ({ id: d.id, ...d.data() }));
+  }
 
-    async function getRegsMes() {
-        const ini = `${APP.anio}-${pad(APP.mes)}-01`;
-        const fin = `${APP.anio}-${pad(APP.mes)}-31`;
-        const s = await DB.collection(C.registros)
+  async function cargarCargas() {
+    const s = await DB.collection(C.combustible).orderBy('fecha','desc').get();
+    APP.cargas = s.docs.map(d => ({ id: d.id, ...d.data() }));
+  }
+
+  async function getRegsMes() {
+    const ini = `${APP.anio}-${pad(APP.mes)}-01`;
+    const fin = `${APP.anio}-${pad(APP.mes)}-31`;
+    const s = await DB.collection(C.registros)
             .where(firebase.firestore.FieldPath.documentId(), '>=', ini)
             .where(firebase.firestore.FieldPath.documentId(), '<=', fin).get();
-        const m = {};
-        s.forEach(d => { m[d.id] = d.data(); });
-        return m;
-    }
+    const m = {};
+    s.forEach(d => { m[d.id] = d.data(); });
+    return m;
+  }
 
-    async function getReg(f) {
-        const s = await DB.collection(C.registros).doc(f).get();
-        return s.exists ? s.data() : null;
-    }
+  async function getReg(f) {
+    const s = await DB.collection(C.registros).doc(f).get();
+    return s.exists ? s.data() : null;
+  }
 
-    async function setReg(f, d) {
-        await DB.collection(C.registros).doc(f).set(d, { merge: true });
-    }
+  async function setReg(f, d) {
+    await DB.collection(C.registros).doc(f).set(d, { merge: true });
+  }
 
-    // ══════════════════════════════════════════════════
-    // NAVEGACIÓN
-    // ══════════════════════════════════════════════════
-    function irPg(id) {
-        document.querySelectorAll('.pg').forEach(p => p.classList.remove('act'));
-        document.getElementById(id).classList.add('act');
-        document.querySelectorAll('.nb').forEach(b => b.classList.remove('act'));
-        const mapa = { 'pg-inicio':'nb-i','pg-movs':'nb-m', 'pg-turno':'nb-t','pg-grafs':'nb-g','pg-config':'nb-c' };
-        document.getElementById(mapa[id])?.classList.add('act');
-        if (id === 'pg-grafs') renderGrafs();
-        if (id === 'pg-turno') renderCal().then(() => renderTurnoStats());
-    }
+  // ══════════════════════════════════════════════════
+  // NAVEGACIÓN
+  // ══════════════════════════════════════════════════
+  function irPg(id) {
+    document.querySelectorAll('.pg').forEach(p => p.classList.remove('act'));
+    document.getElementById(id).classList.add('act');
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('act'));
+    const mapa = { 'pg-inicio':'nb-i','pg-movs':'nb-m', 'pg-turno':'nb-t','pg-grafs':'nb-g','pg-config':'nb-c' };
+    document.getElementById(mapa[id])?.classList.add('act');
+    if (id === 'pg-grafs') renderGrafs();
+    if (id === 'pg-turno') renderCal().then(() => renderTurnoStats());
+  }
 
-    // ══════════════════════════════════════════════════
-    // RENDER TODO
-    // ══════════════════════════════════════════════════
-    function renderTodo() {
-        renderInicio();
-        renderHist();
-        renderAhorro();
-        renderTablasCfg();
-        renderCal();
-    }
+  // ══════════════════════════════════════════════════
+  // RENDER TODO
+  // ══════════════════════════════════════════════════
+  function renderTodo() {
+    renderInicio();
+    renderHist();
+    renderAhorro();
+    renderTablasCfg();
+    renderCal();
+  }
 
-    // ══════════════════════════════════════════════════
-    // MODO — PRIMERA VEZ
-    // ══════════════════════════════════════════════════
-    async function pedirModo() {
-        const { value: modo } = await Swal.fire({
-            title: '¡Bienvenido! 👋',
-            html: `
+  // ══════════════════════════════════════════════════
+  // MODO — PRIMERA VEZ
+  // ══════════════════════════════════════════════════
+  async function pedirModo() {
+    const { value: modo } = await Swal.fire({
+      title: '¡Bienvenido! 👋',
+      html: `
       <p style="color:var(--texto2);font-size:13px;margin-bottom:14px"> Elige cómo usar el sistema. <strong style="color:var(--verde)">Solo se pregunta una vez.</strong> </p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div onclick="swModo('alquiler_diario',this)" class="sw-mc modo-card" style="padding:14px">
@@ -1924,52 +1924,52 @@ select.inp option { background: #fff; color: var(--texto); }
         </div>
       </div>
       <input type="hidden" id="sw-modo-val" value=""/>`,
-            confirmButtonText: 'Confirmar',
-            allowOutsideClick: false,
-            showCancelButton: false,
-            preConfirm: () => {
-                const v = document.getElementById('sw-modo-val').value;
-                if (!v) {
-                    Swal.showValidationMessage('Selecciona un modo');
-                    return false;
-                }
-                return v;
-            }
-        });
-        if (modo) await setCfg({ modo });
-    }
+      confirmButtonText: 'Confirmar',
+      allowOutsideClick: false,
+      showCancelButton: false,
+      preConfirm: () => {
+        const v = document.getElementById('sw-modo-val').value;
+        if (!v) {
+          Swal.showValidationMessage('Selecciona un modo');
+          return false;
+        }
+        return v;
+      }
+    });
+    if (modo) await setCfg({ modo });
+  }
 
-    window.swModo = (modo, el) => {
-        document.querySelectorAll('.sw-mc').forEach(e => e.classList.remove('act'));
-        el.classList.add('act');
-        document.getElementById('sw-modo-val').value = modo;
-    };
+  window.swModo = (modo, el) => {
+    document.querySelectorAll('.sw-mc').forEach(e => e.classList.remove('act'));
+    el.classList.add('act');
+    document.getElementById('sw-modo-val').value = modo;
+  };
 
-    async function pedirCuotaAlquiler() {
-        const { value: cuota } = await Swal.fire({
-            title: '🏠 Cuota Diaria de Alquiler',
-            html: `
+  async function pedirCuotaAlquiler() {
+    const { value: cuota } = await Swal.fire({
+      title: '🏠 Cuota Diaria de Alquiler',
+      html: `
       <p style="color:var(--texto2);font-size:13px;margin-bottom:12px"> Ingresa el valor que pagas diariamente por el alquiler del carro. <strong style="color:var(--verde)">Solo se pregunta esta vez.</strong> </p>
       <input type="number" id="swal-alq" class="swal2-input" min="0" step="1000" placeholder="Ej: 60000" inputmode="numeric"/>`,
-            confirmButtonText: 'Guardar',
-            allowOutsideClick: false,
-            showCancelButton: false,
-            preConfirm: () => {
-                const v = parseInt(document.getElementById('swal-alq').value) || 0;
-                if (v <= 0) {
-                    Swal.showValidationMessage('Ingresa un valor mayor a 0');
-                    return false;
-                }
-                return v;
-            }
-        });
-        if (cuota) await setCfg({ cuota_alquiler: cuota, cfg_alquiler_ok: true });
-    }
+      confirmButtonText: 'Guardar',
+      allowOutsideClick: false,
+      showCancelButton: false,
+      preConfirm: () => {
+        const v = parseInt(document.getElementById('swal-alq').value) || 0;
+        if (v <= 0) {
+          Swal.showValidationMessage('Ingresa un valor mayor a 0');
+          return false;
+        }
+        return v;
+      }
+    });
+    if (cuota) await setCfg({ cuota_alquiler: cuota, cfg_alquiler_ok: true });
+  }
 
-    async function pedirCuotaAhorro() {
-        const { value: cuota } = await Swal.fire({
-            title: '🚗 Cuota del Vehículo',
-            html: `
+  async function pedirCuotaAhorro() {
+    const { value: cuota } = await Swal.fire({
+      title: '🚗 Cuota del Vehículo',
+      html: `
       <p style="color:var(--texto2);font-size:13px;margin-bottom:12px"> Ingresa la cuota mensual del vehículo y tu meta de ahorro diario. <strong style="color:var(--verde)">Solo se pregunta esta vez.</strong> </p>
       <div style="margin-bottom:10px">
         <div style="font-size:11px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px"> Cuota mensual del vehículo ($) </div>
@@ -1979,229 +1979,229 @@ select.inp option { background: #fff; color: var(--texto); }
         <div style="font-size:11px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px"> Meta ahorro diario ($) </div>
         <input type="number" id="swal-cd" class="swal2-input" min="0" step="1000" placeholder="Ej: 60000" inputmode="numeric"/>
       </div>`,
-            confirmButtonText: 'Guardar',
-            allowOutsideClick: false,
-            showCancelButton: false,
-            preConfirm: () => {
-                const v = parseInt(document.getElementById('swal-cv').value) || 0;
-                const d = parseInt(document.getElementById('swal-cd').value) || 0;
-                if (v <= 0) {
-                    Swal.showValidationMessage('Ingresa la cuota mensual');
-                    return false;
-                }
-                return { v, d };
-            }
-        });
-        if (cuota) {
-            await setCfg({ cuota_vehiculo: cuota.v, cuota_diaria_ahorro: cuota.d, cfg_ahorro_ok: true });
+      confirmButtonText: 'Guardar',
+      allowOutsideClick: false,
+      showCancelButton: false,
+      preConfirm: () => {
+        const v = parseInt(document.getElementById('swal-cv').value) || 0;
+        const d = parseInt(document.getElementById('swal-cd').value) || 0;
+        if (v <= 0) {
+          Swal.showValidationMessage('Ingresa la cuota mensual');
+          return false;
         }
+        return { v, d };
+      }
+    });
+    if (cuota) {
+      await setCfg({ cuota_vehiculo: cuota.v, cuota_diaria_ahorro: cuota.d, cfg_ahorro_ok: true });
     }
+  }
 
-    async function selModo(modo) {
-        const nom = modo === 'alquiler_diario' ? 'Alquiler Diario' : 'Ahorro Carro';
-        const { isConfirmed } = await Swal.fire({
-            title: `¿Cambiar a ${nom}?`,
-            text: 'Los registros anteriores se conservan.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No'
-        });
-        if (!isConfirmed) return;
-        await setCfg({ modo });
-        if (modo === 'alquiler_diario' && !APP.cfg.cfg_alquiler_ok) {
-            await pedirCuotaAlquiler();
-            await cargarCfg();
-        }
-        if (modo === 'ahorro_carro' && !APP.cfg.cfg_ahorro_ok) {
-            await pedirCuotaAhorro();
-            await cargarCfg();
-        }
-        aplicarModo(modo);
-        renderTodo();
-        Swal.fire({ icon:'success', title:'¡Modo actualizado!', text: nom, timer: 1800, showConfirmButton: false });
+  async function selModo(modo) {
+    const nom = modo === 'alquiler_diario' ? 'Alquiler Diario' : 'Ahorro Carro';
+    const { isConfirmed } = await Swal.fire({
+      title: `¿Cambiar a ${nom}?`,
+      text: 'Los registros anteriores se conservan.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    });
+    if (!isConfirmed) return;
+    await setCfg({ modo });
+    if (modo === 'alquiler_diario' && !APP.cfg.cfg_alquiler_ok) {
+      await pedirCuotaAlquiler();
+      await cargarCfg();
     }
-
-    function aplicarModo(modo) {
-        const nom = modo === 'alquiler_diario' ? '🏠 Alquiler' : '🚗 Ahorro';
-        document.getElementById('chip-modo-txt').textContent = nom;
-        document.getElementById('modo-act').textContent = nom;
-        document.getElementById('inicio-titulo').textContent = modo === 'alquiler_diario' ? 'Control Alquiler' : 'Ahorro para el Carro';
-        document.getElementById('mc-alquiler').classList.toggle('act', modo === 'alquiler_diario');
-        document.getElementById('mc-ahorro').classList.toggle('act', modo === 'ahorro_carro');
+    if (modo === 'ahorro_carro' && !APP.cfg.cfg_ahorro_ok) {
+      await pedirCuotaAhorro();
+      await cargarCfg();
     }
+    aplicarModo(modo);
+    renderTodo();
+    Swal.fire({ icon:'success', title:'¡Modo actualizado!', text: nom, timer: 1800, showConfirmButton: false });
+  }
 
-    // ══════════════════════════════════════════════════
-    // INICIO — DASHBOARD
-    // ══════════════════════════════════════════════════
-    function setPer(p, el) {
-        APP.periodo = p;
-        APP.fechaNav = APP.hoy;
-        document.querySelectorAll('#tabs-per .tab').forEach(b => b.classList.remove('act'));
-        el.classList.add('act');
-        actualizarFechaN();
-        renderInicio();
+  function aplicarModo(modo) {
+    const nom = modo === 'alquiler_diario' ? '🏠 Alquiler' : '🚗 Ahorro';
+    document.getElementById('chip-modo-txt').textContent = nom;
+    document.getElementById('modo-act').textContent = nom;
+    document.getElementById('inicio-titulo').textContent = modo === 'alquiler_diario' ? 'Control Alquiler' : 'Ahorro para el Carro';
+    document.getElementById('mc-alquiler').classList.toggle('act', modo === 'alquiler_diario');
+    document.getElementById('mc-ahorro').classList.toggle('act', modo === 'ahorro_carro');
+  }
+
+  // ══════════════════════════════════════════════════
+  // INICIO — DASHBOARD
+  // ══════════════════════════════════════════════════
+  function setPer(p, el) {
+    APP.periodo = p;
+    APP.fechaNav = APP.hoy;
+    document.querySelectorAll('#tabs-per .tab').forEach(b => b.classList.remove('act'));
+    el.classList.add('act');
+    actualizarFechaN();
+    renderInicio();
+  }
+
+  function navF(dir) {
+    const d = new Date(APP.fechaNav + 'T12:00:00');
+    if (APP.periodo === 'dia') d.setDate(d.getDate() + dir);
+    else if (APP.periodo === 'semana') d.setDate(d.getDate() + dir * 7);
+    else d.setMonth(d.getMonth() + dir);
+    APP.fechaNav = toYMD(d);
+    actualizarFechaN();
+    renderInicio();
+  }
+
+  function actualizarFechaN() {
+    const d = new Date(APP.fechaNav + 'T12:00:00');
+    let lbl = '';
+    if (APP.periodo === 'dia') {
+      lbl = APP.fechaNav === APP.hoy ? 'Hoy' : d.toLocaleDateString('es-CO', { weekday:'short', day:'numeric', month:'short' });
+    } else if (APP.periodo === 'semana') {
+      const lu = new Date(d);
+      lu.setDate(d.getDate() - ((d.getDay()+6)%7));
+      const do2 = new Date(lu);
+      do2.setDate(do2.getDate() + 6);
+      lbl = `${lu.toLocaleDateString('es-CO',{day:'numeric',month:'short'})} – ${do2.toLocaleDateString('es-CO',{day:'numeric',month:'short'})}`;
+    } else {
+      lbl = d.toLocaleDateString('es-CO', { month:'long', year:'numeric' });
     }
+    document.getElementById('lbl-fecha').textContent = lbl;
+  }
 
-    function navF(dir) {
-        const d = new Date(APP.fechaNav + 'T12:00:00');
-        if (APP.periodo === 'dia') d.setDate(d.getDate() + dir);
-        else if (APP.periodo === 'semana') d.setDate(d.getDate() + dir * 7);
-        else d.setMonth(d.getMonth() + dir);
-        APP.fechaNav = toYMD(d);
-        actualizarFechaN();
-        renderInicio();
+  function filtrarMovsPer(all = false) {
+    const d = new Date(APP.fechaNav + 'T12:00:00');
+    let fechas = [];
+    if (APP.periodo === 'dia') fechas = [APP.fechaNav];
+    else if (APP.periodo === 'semana') {
+      const lu = new Date(d);
+      lu.setDate(d.getDate() - ((d.getDay()+6)%7));
+      for (let i = 0; i < 7; i++) {
+        const x = new Date(lu);
+        x.setDate(lu.getDate() + i);
+        fechas.push(toYMD(x));
+      }
+    } else {
+      const anio = d.getFullYear(), mes = d.getMonth()+1;
+      const dias = new Date(anio, mes, 0).getDate();
+      for (let i = 1; i <= dias; i++) fechas.push(`${anio}-${pad(mes)}-${pad(i)}`);
     }
+    const movs = APP.movimientos.filter(m => fechas.includes(m.fecha));
+    if (all) return movs;
+    const ing = movs.filter(m => m.tipo==='ing').reduce((s,m) => s + (m.monto||0), 0);
+    const gas = movs.filter(m => m.tipo==='gas').reduce((s,m) => s + (m.monto||0), 0);
+    return { ing, gas };
+  }
 
-    function actualizarFechaN() {
-        const d = new Date(APP.fechaNav + 'T12:00:00');
-        let lbl = '';
-        if (APP.periodo === 'dia') {
-            lbl = APP.fechaNav === APP.hoy ? 'Hoy' : d.toLocaleDateString('es-CO', { weekday:'short', day:'numeric', month:'short' });
-        } else if (APP.periodo === 'semana') {
-            const lu = new Date(d);
-            lu.setDate(d.getDate() - ((d.getDay()+6)%7));
-            const do2 = new Date(lu);
-            do2.setDate(do2.getDate() + 6);
-            lbl = `${lu.toLocaleDateString('es-CO',{day:'numeric',month:'short'})} – ${do2.toLocaleDateString('es-CO',{day:'numeric',month:'short'})}`;
-        } else {
-            lbl = d.toLocaleDateString('es-CO', { month:'long', year:'numeric' });
-        }
-        document.getElementById('lbl-fecha').textContent = lbl;
+  function diasPer() {
+    if (APP.periodo === 'dia') return 1;
+    if (APP.periodo === 'semana') return 7;
+    return new Date(APP.anio, APP.mes, 0).getDate();
+  }
+
+  function renderInicio() {
+    const { ing, gas } = filtrarMovsPer();
+    const bal = ing - gas;
+    const efic = ing > 0 ? Math.round((1 - gas/ing) * 100) : 0;
+
+    const bc = document.getElementById('bal-card');
+    bc.className = 'bal-card' + (bal > 0 ? '' : bal < 0 ? ' neg' : ' neu');
+    document.getElementById('bal-monto').textContent = fCOP(bal);
+    document.getElementById('bal-ing').textContent = '+ ' + fCOP(ing);
+    document.getElementById('bal-gas').textContent = '- ' + fCOP(gas);
+    document.getElementById('bal-efic').textContent = efic + '%';
+    document.getElementById('val-efic').textContent = efic + '%';
+
+    const meta = APP.periodo==='dia' ? APP.cfg.meta_dia : APP.periodo==='semana' ? APP.cfg.meta_semana : APP.cfg.meta_mes;
+    const pct = meta > 0 ? Math.min(100, Math.round(ing / meta * 100)) : 0;
+    document.getElementById('ring-meta-pct').textContent = pct + '%';
+    document.getElementById('meta-pct').textContent = pct + '%';
+    document.getElementById('prog-meta').style.width = pct + '%';
+    document.getElementById('prog-meta').className = 'prog-fill ' + (pct >= 100 ? 'verde' : pct < 40 ? 'rojo' : 'amarillo');
+    document.getElementById('meta-val').textContent = fCOP(meta || 0);
+
+    const off = 239 - (pct/100) * 239;
+    const r = document.getElementById('ring-meta');
+    r.style.strokeDashoffset = off;
+    r.style.stroke = pct >= 100 ? 'var(--verde)' : pct < 40 ? 'var(--rojo)' : 'var(--amarillo)';
+
+    const falta = Math.max(0, (meta||0) - ing);
+    document.getElementById('meta-info').innerHTML = meta > 0 ? (pct>=100 ? `<span class="t-v fw7">✓ ¡Meta alcanzada!</span>` : `Faltan <strong class="t-v">${fCOP(falta)}</strong> para la meta`) : `<span class="t-d">Configura tu meta en <strong>Metas</strong></span>`;
+
+    const movsFilt = filtrarMovsPer(true);
+    document.getElementById('s-mov').textContent = movsFilt.length;
+    const dias = diasPer();
+    document.getElementById('s-prom').textContent = dias > 0 ? fCOP(Math.round(ing/dias)) : '$0';
+    const trabMes = APP.movimientos.filter(m => m.tipo==='ing' && m.fecha && m.fecha.startsWith(`${APP.anio}-${pad(APP.mes)}`));
+    document.getElementById('s-trab').textContent = new Set(trabMes.map(m=>m.fecha)).size;
+    const sNeto = document.getElementById('s-neto');
+    sNeto.textContent = fCOP(bal);
+    sNeto.className = 'sv ' + (bal >= 0 ? 'verde' : 'rojo');
+
+    const za = document.getElementById('anal-inicio');
+    if (meta > 0 && ing >= meta) {
+      za.className = 'anal-card';
+      za.innerHTML = `<i class="fa-solid fa-trophy me-1"></i> <span class="fs12">¡Meta del período alcanzada! Llevas <strong>${fCOP(ing)}</strong> 🎉</span>`;
+    } else if (meta > 0) {
+      za.className = 'anal-card amarillo';
+      za.innerHTML = `<i class="fa-solid fa-chart-line me-1"></i> <span class="fs12">Meta: <strong>${fCOP(meta)}</strong> | Llevas: <strong>${fCOP(ing)}</strong> | Faltan: <strong>${fCOP(falta)}</strong></span>`;
+    } else {
+      za.className = 'anal-card azul';
+      za.innerHTML = `<i class="fa-solid fa-circle-info me-1"></i> <span class="fs12">Ingresos: <strong>${fCOP(ing)}</strong> | Gastos: <strong>${fCOP(gas)}</strong> | Eficiencia: <strong>${efic}%</strong></span>`;
     }
+  }
 
-    function filtrarMovsPer(all = false) {
-        const d = new Date(APP.fechaNav + 'T12:00:00');
-        let fechas = [];
-        if (APP.periodo === 'dia') fechas = [APP.fechaNav];
-        else if (APP.periodo === 'semana') {
-            const lu = new Date(d);
-            lu.setDate(d.getDate() - ((d.getDay()+6)%7));
-            for (let i = 0; i < 7; i++) {
-                const x = new Date(lu);
-                x.setDate(lu.getDate() + i);
-                fechas.push(toYMD(x));
-            }
-        } else {
-            const anio = d.getFullYear(), mes = d.getMonth()+1;
-            const dias = new Date(anio, mes, 0).getDate();
-            for (let i = 1; i <= dias; i++) fechas.push(`${anio}-${pad(mes)}-${pad(i)}`);
-        }
-        const movs = APP.movimientos.filter(m => fechas.includes(m.fecha));
-        if (all) return movs;
-        const ing = movs.filter(m => m.tipo==='ing').reduce((s,m) => s + (m.monto||0), 0);
-        const gas = movs.filter(m => m.tipo==='gas').reduce((s,m) => s + (m.monto||0), 0);
-        return { ing, gas };
+  // ══════════════════════════════════════════════════
+  // MOVIMIENTOS
+  // ══════════════════════════════════════════════════
+  function navFM(dir) {
+    const d = new Date(APP.fechaMovs + 'T12:00:00');
+    d.setDate(d.getDate() + dir);
+    APP.fechaMovs = toYMD(d);
+    document.getElementById('lbl-fecha-movs').textContent = APP.fechaMovs === APP.hoy ? 'Hoy' : d.toLocaleDateString('es-CO', { weekday:'long', day:'numeric', month:'short' });
+    renderHist();
+  }
+
+  function abrirMov(cat, tipo) {
+    const noms = { uber:'Uber', didi:'DiDi', indrive:'InDrive', efectivo:'Efectivo', propina:'Propina', particular:'Particular', gasolina:'Gasolina', lavado:'Lavado', comida:'Comida', taller:'Taller', impuestos:'Impuestos', otros:'Otros' };
+    document.getElementById('mdMov-tit').innerHTML = `<span style="color:${catColor(cat)}">${catEmoji(cat)} ${noms[cat]||cat}</span>`;
+    document.getElementById('mov-tipo').value = tipo;
+    document.getElementById('mov-cat').value = cat;
+    document.getElementById('mov-monto').value = '';
+    document.getElementById('mov-desc').value = '';
+    document.getElementById('mov-fecha').value = APP.fechaMovs;
+    APP.modales.mdMov.show();
+    setTimeout(() => document.getElementById('mov-monto').focus(), 400);
+  }
+
+  async function guardarMov() {
+    const monto = parseInt(document.getElementById('mov-monto').value) || 0;
+    const tipo = document.getElementById('mov-tipo').value;
+    const cat = document.getElementById('mov-cat').value;
+    const desc = document.getElementById('mov-desc').value.trim();
+    const fecha = document.getElementById('mov-fecha').value;
+    if (monto <= 0) {
+      Swal.fire({ icon:'warning', title:'Monto inválido', text:'Ingresa un valor mayor a 0.' });
+      return;
     }
+    await DB.collection(C.movs).add({ fecha, tipo, categoria: cat, monto, descripcion: desc, creado: new Date().toISOString() });
+    APP.modales.mdMov.hide();
+    await cargarMovs();
+    renderInicio();
+    renderHist();
+    renderGrafs();
+    Swal.fire({ icon: 'success', title: `${catEmoji(cat)} ¡Registrado!`, text: `${tipo==='ing' ? '+' : '-'}${fCOP(monto)}`, timer: 1600, showConfirmButton: false });
+  }
 
-    function diasPer() {
-        if (APP.periodo === 'dia') return 1;
-        if (APP.periodo === 'semana') return 7;
-        return new Date(APP.anio, APP.mes, 0).getDate();
+  function renderHist() {
+    const movs = APP.movimientos.filter(m => m.fecha === APP.fechaMovs);
+    const lista = document.getElementById('hist-lista');
+    if (!movs.length) {
+      lista.innerHTML = '<p class="t-d fs12 text-center p-3">Sin movimientos en esta fecha.</p>';
+      return;
     }
-
-    function renderInicio() {
-        const { ing, gas } = filtrarMovsPer();
-        const bal = ing - gas;
-        const efic = ing > 0 ? Math.round((1 - gas/ing) * 100) : 0;
-
-        const bc = document.getElementById('bal-card');
-        bc.className = 'bal-card' + (bal > 0 ? '' : bal < 0 ? ' neg' : ' neu');
-        document.getElementById('bal-monto').textContent = fCOP(bal);
-        document.getElementById('bal-ing').textContent = '+ ' + fCOP(ing);
-        document.getElementById('bal-gas').textContent = '- ' + fCOP(gas);
-        document.getElementById('bal-efic').textContent = efic + '%';
-        document.getElementById('val-efic').textContent = efic + '%';
-
-        const meta = APP.periodo==='dia' ? APP.cfg.meta_dia : APP.periodo==='semana' ? APP.cfg.meta_semana : APP.cfg.meta_mes;
-        const pct = meta > 0 ? Math.min(100, Math.round(ing / meta * 100)) : 0;
-        document.getElementById('ring-meta-pct').textContent = pct + '%';
-        document.getElementById('meta-pct').textContent = pct + '%';
-        document.getElementById('prog-meta').style.width = pct + '%';
-        document.getElementById('prog-meta').className = 'prog-fill ' + (pct >= 100 ? 'verde' : pct < 40 ? 'rojo' : 'amarillo');
-        document.getElementById('meta-val').textContent = fCOP(meta || 0);
-
-        const off = 239 - (pct/100) * 239;
-        const r = document.getElementById('ring-meta');
-        r.style.strokeDashoffset = off;
-        r.style.stroke = pct >= 100 ? 'var(--verde)' : pct < 40 ? 'var(--rojo)' : 'var(--amarillo)';
-
-        const falta = Math.max(0, (meta||0) - ing);
-        document.getElementById('meta-info').innerHTML = meta > 0 ? (pct>=100 ? `<span class="t-v fw7">✓ ¡Meta alcanzada!</span>` : `Faltan <strong class="t-v">${fCOP(falta)}</strong> para la meta`) : `<span class="t-d">Configura tu meta en <strong>Metas</strong></span>`;
-
-        const movsFilt = filtrarMovsPer(true);
-        document.getElementById('s-mov').textContent = movsFilt.length;
-        const dias = diasPer();
-        document.getElementById('s-prom').textContent = dias > 0 ? fCOP(Math.round(ing/dias)) : '$0';
-        const trabMes = APP.movimientos.filter(m => m.tipo==='ing' && m.fecha && m.fecha.startsWith(`${APP.anio}-${pad(APP.mes)}`));
-        document.getElementById('s-trab').textContent = new Set(trabMes.map(m=>m.fecha)).size;
-        const sNeto = document.getElementById('s-neto');
-        sNeto.textContent = fCOP(bal);
-        sNeto.className = 'sv ' + (bal >= 0 ? 'verde' : 'rojo');
-
-        const za = document.getElementById('anal-inicio');
-        if (meta > 0 && ing >= meta) {
-            za.className = 'anal-card';
-            za.innerHTML = `<i class="fa-solid fa-trophy me-1"></i> <span class="fs12">¡Meta del período alcanzada! Llevas <strong>${fCOP(ing)}</strong> 🎉</span>`;
-        } else if (meta > 0) {
-            za.className = 'anal-card amarillo';
-            za.innerHTML = `<i class="fa-solid fa-chart-line me-1"></i> <span class="fs12">Meta: <strong>${fCOP(meta)}</strong> | Llevas: <strong>${fCOP(ing)}</strong> | Faltan: <strong>${fCOP(falta)}</strong></span>`;
-        } else {
-            za.className = 'anal-card azul';
-            za.innerHTML = `<i class="fa-solid fa-circle-info me-1"></i> <span class="fs12">Ingresos: <strong>${fCOP(ing)}</strong> | Gastos: <strong>${fCOP(gas)}</strong> | Eficiencia: <strong>${efic}%</strong></span>`;
-        }
-    }
-
-    // ══════════════════════════════════════════════════
-    // MOVIMIENTOS
-    // ══════════════════════════════════════════════════
-    function navFM(dir) {
-        const d = new Date(APP.fechaMovs + 'T12:00:00');
-        d.setDate(d.getDate() + dir);
-        APP.fechaMovs = toYMD(d);
-        document.getElementById('lbl-fecha-movs').textContent = APP.fechaMovs === APP.hoy ? 'Hoy' : d.toLocaleDateString('es-CO', { weekday:'long', day:'numeric', month:'short' });
-        renderHist();
-    }
-
-    function abrirMov(cat, tipo) {
-        const noms = { uber:'Uber', didi:'DiDi', indrive:'InDrive', efectivo:'Efectivo', propina:'Propina', particular:'Particular', gasolina:'Gasolina', lavado:'Lavado', comida:'Comida', taller:'Taller', impuestos:'Impuestos', otros:'Otros' };
-        document.getElementById('mdMov-tit').innerHTML = `<span style="color:${catColor(cat)}">${catEmoji(cat)} ${noms[cat]||cat}</span>`;
-        document.getElementById('mov-tipo').value = tipo;
-        document.getElementById('mov-cat').value = cat;
-        document.getElementById('mov-monto').value = '';
-        document.getElementById('mov-desc').value = '';
-        document.getElementById('mov-fecha').value = APP.fechaMovs;
-        APP.modales.mdMov.show();
-        setTimeout(() => document.getElementById('mov-monto').focus(), 400);
-    }
-
-    async function guardarMov() {
-        const monto = parseInt(document.getElementById('mov-monto').value) || 0;
-        const tipo = document.getElementById('mov-tipo').value;
-        const cat = document.getElementById('mov-cat').value;
-        const desc = document.getElementById('mov-desc').value.trim();
-        const fecha = document.getElementById('mov-fecha').value;
-        if (monto <= 0) {
-            Swal.fire({ icon:'warning', title:'Monto inválido', text:'Ingresa un valor mayor a 0.' });
-            return;
-        }
-        await DB.collection(C.movs).add({ fecha, tipo, categoria: cat, monto, descripcion: desc, creado: new Date().toISOString() });
-        APP.modales.mdMov.hide();
-        await cargarMovs();
-        renderInicio();
-        renderHist();
-        renderGrafs();
-        Swal.fire({ icon: 'success', title: `${catEmoji(cat)} ¡Registrado!`, text: `${tipo==='ing' ? '+' : '-'}${fCOP(monto)}`, timer: 1600, showConfirmButton: false });
-    }
-
-    function renderHist() {
-        const movs = APP.movimientos.filter(m => m.fecha === APP.fechaMovs);
-        const lista = document.getElementById('hist-lista');
-        if (!movs.length) {
-            lista.innerHTML = '<p class="t-d fs12 text-center p-3">Sin movimientos en esta fecha.</p>';
-            return;
-        }
-        lista.innerHTML = movs.map(m => `
+    lista.innerHTML = movs.map(m => `
     <div class="hitem">
       <div class="hico" style="background:${catColor(m.categoria)}18">
         <span style="color:${catColor(m.categoria)}">${catEmoji(m.categoria)}</span>
@@ -2219,108 +2219,108 @@ select.inp option { background: #fff; color: var(--texto); }
         </div>
       </div>
     </div>`).join('');
+  }
+
+  async function eliminarMov(id) {
+    const { isConfirmed } = await Swal.fire({
+      icon: 'warning',
+      title: '¿Eliminar?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+      text: 'Esta acción no se puede deshacer.'
+    });
+    if (!isConfirmed) return;
+    await DB.collection(C.movs).doc(id).delete();
+    await cargarMovs();
+    renderHist();
+    renderInicio();
+    renderGrafs();
+  }
+
+  async function recargarMovs() {
+    await cargarMovs();
+    renderHist();
+  }
+
+  // ══════════════════════════════════════════════════
+  // GRÁFICAS
+  // ══════════════════════════════════════════════════
+  function setGTab(t, el) {
+    APP.grafTab = t;
+    document.querySelectorAll('.gtab').forEach(b => b.classList.remove('act'));
+    el.classList.add('act');
+    ['balance','canales','gastos','auto'].forEach(p => {
+      document.getElementById(`gp-${p}`).style.display = t===p ? 'block' : 'none';
+    });
+    renderGrafs();
+  }
+
+  function setGPer(p, el) {
+    APP.grafPer = p;
+    document.querySelectorAll('#tabs-gper .tab').forEach(b => b.classList.remove('act'));
+    el.classList.add('act');
+    renderGrafs();
+  }
+
+  function getMovsGraf() {
+    const hoy = new Date(APP.hoy + 'T12:00:00');
+    let fechas = [];
+    if (APP.grafPer === 'dia') fechas = [APP.hoy];
+    else if (APP.grafPer === 'semana') {
+      const lu = new Date(hoy);
+      lu.setDate(hoy.getDate() - ((hoy.getDay()+6)%7));
+      for (let i = 0; i < 7; i++) {
+        const x = new Date(lu);
+        x.setDate(lu.getDate()+i);
+        fechas.push(toYMD(x));
+      }
+    } else {
+      const dias = new Date(APP.anio, APP.mes, 0).getDate();
+      for (let i = 1; i <= dias; i++) fechas.push(`${APP.anio}-${pad(APP.mes)}-${pad(i)}`);
     }
+    return APP.movimientos.filter(m => fechas.includes(m.fecha));
+  }
 
-    async function eliminarMov(id) {
-        const { isConfirmed } = await Swal.fire({
-            icon: 'warning',
-            title: '¿Eliminar?',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
-            text: 'Esta acción no se puede deshacer.'
-        });
-        if (!isConfirmed) return;
-        await DB.collection(C.movs).doc(id).delete();
-        await cargarMovs();
-        renderHist();
-        renderInicio();
-        renderGrafs();
+  function renderGrafs() {
+    if (APP.grafTab === 'balance') renderGBalance();
+    else if (APP.grafTab === 'canales') renderGCanales();
+    else if (APP.grafTab === 'gastos') renderGGastos();
+    else if (APP.grafTab === 'auto') renderGAuto();
+  }
+
+  function renderGBalance() {
+    const movs = getMovsGraf();
+    const ing = movs.filter(m=>m.tipo==='ing').reduce((s,m)=>s+m.monto,0);
+    const gas = movs.filter(m=>m.tipo==='gas').reduce((s,m)=>s+m.monto,0);
+    const efic = ing > 0 ? Math.round((1-gas/ing)*100) : 0;
+    document.getElementById('g-ing').textContent = fCOP(ing);
+    document.getElementById('g-gas').textContent = fCOP(gas);
+    document.getElementById('g-efic').textContent = efic + '%';
+    const pct = ing > 0 ? Math.min(100, Math.round(ing/(APP.cfg.meta_mes||1)*100)) : 0;
+    const off = 270 - (pct/100) * 270;
+    document.getElementById('ring-bal').style.strokeDashoffset = off;
+    document.getElementById('ring-bal-pct').textContent = fCOP(ing);
+
+    const porDia = {};
+    movs.forEach(m => {
+      if (!porDia[m.fecha]) porDia[m.fecha] = { ing:0, gas:0 };
+      if (m.tipo==='ing') porDia[m.fecha].ing += m.monto;
+      else porDia[m.fecha].gas += m.monto;
+    });
+    const dias = Object.keys(porDia).sort();
+    const maxV = Math.max(...dias.map(d=>Math.max(porDia[d].ing,porDia[d].gas)),1);
+    const zona = document.getElementById('g-barras');
+    if (!dias.length) {
+      zona.innerHTML='<p class="t-d fs12 text-center">Sin datos.</p>';
+      return;
     }
-
-    async function recargarMovs() {
-        await cargarMovs();
-        renderHist();
-    }
-
-    // ══════════════════════════════════════════════════
-    // GRÁFICAS
-    // ══════════════════════════════════════════════════
-    function setGTab(t, el) {
-        APP.grafTab = t;
-        document.querySelectorAll('.gtab').forEach(b => b.classList.remove('act'));
-        el.classList.add('act');
-        ['balance','canales','gastos','auto'].forEach(p => {
-            document.getElementById(`gp-${p}`).style.display = t===p ? 'block' : 'none';
-        });
-        renderGrafs();
-    }
-
-    function setGPer(p, el) {
-        APP.grafPer = p;
-        document.querySelectorAll('#tabs-gper .tab').forEach(b => b.classList.remove('act'));
-        el.classList.add('act');
-        renderGrafs();
-    }
-
-    function getMovsGraf() {
-        const hoy = new Date(APP.hoy + 'T12:00:00');
-        let fechas = [];
-        if (APP.grafPer === 'dia') fechas = [APP.hoy];
-        else if (APP.grafPer === 'semana') {
-            const lu = new Date(hoy);
-            lu.setDate(hoy.getDate() - ((hoy.getDay()+6)%7));
-            for (let i = 0; i < 7; i++) {
-                const x = new Date(lu);
-                x.setDate(lu.getDate()+i);
-                fechas.push(toYMD(x));
-            }
-        } else {
-            const dias = new Date(APP.anio, APP.mes, 0).getDate();
-            for (let i = 1; i <= dias; i++) fechas.push(`${APP.anio}-${pad(APP.mes)}-${pad(i)}`);
-        }
-        return APP.movimientos.filter(m => fechas.includes(m.fecha));
-    }
-
-    function renderGrafs() {
-        if (APP.grafTab === 'balance') renderGBalance();
-        else if (APP.grafTab === 'canales') renderGCanales();
-        else if (APP.grafTab === 'gastos') renderGGastos();
-        else if (APP.grafTab === 'auto') renderGAuto();
-    }
-
-    function renderGBalance() {
-        const movs = getMovsGraf();
-        const ing = movs.filter(m=>m.tipo==='ing').reduce((s,m)=>s+m.monto,0);
-        const gas = movs.filter(m=>m.tipo==='gas').reduce((s,m)=>s+m.monto,0);
-        const efic = ing > 0 ? Math.round((1-gas/ing)*100) : 0;
-        document.getElementById('g-ing').textContent = fCOP(ing);
-        document.getElementById('g-gas').textContent = fCOP(gas);
-        document.getElementById('g-efic').textContent = efic + '%';
-        const pct = ing > 0 ? Math.min(100, Math.round(ing/(APP.cfg.meta_mes||1)*100)) : 0;
-        const off = 270 - (pct/100) * 270;
-        document.getElementById('ring-bal').style.strokeDashoffset = off;
-        document.getElementById('ring-bal-pct').textContent = fCOP(ing);
-
-        const porDia = {};
-        movs.forEach(m => {
-            if (!porDia[m.fecha]) porDia[m.fecha] = { ing:0, gas:0 };
-            if (m.tipo==='ing') porDia[m.fecha].ing += m.monto;
-            else porDia[m.fecha].gas += m.monto;
-        });
-        const dias = Object.keys(porDia).sort();
-        const maxV = Math.max(...dias.map(d=>Math.max(porDia[d].ing,porDia[d].gas)),1);
-        const zona = document.getElementById('g-barras');
-        if (!dias.length) {
-            zona.innerHTML='<p class="t-d fs12 text-center">Sin datos.</p>';
-            return;
-        }
-        zona.innerHTML = dias.map(fd => {
-            const d = new Date(fd+'T12:00:00');
-            const lbl = d.toLocaleDateString('es-CO',{weekday:'short',day:'numeric'});
-            const ip = Math.round(porDia[fd].ing/maxV*100);
-            const gp = Math.round(porDia[fd].gas/maxV*100);
-            return `<div class="bar-row">
+    zona.innerHTML = dias.map(fd => {
+      const d = new Date(fd+'T12:00:00');
+      const lbl = d.toLocaleDateString('es-CO',{weekday:'short',day:'numeric'});
+      const ip = Math.round(porDia[fd].ing/maxV*100);
+      const gp = Math.round(porDia[fd].gas/maxV*100);
+      return `<div class="bar-row">
       <div class="bar-lbl">${lbl}</div>
       <div style="flex:1">
         <div class="bar-track" style="height:9px;margin-bottom:2px">
@@ -2335,21 +2335,21 @@ select.inp option { background: #fff; color: var(--texto); }
         </div>
       </div>
     </div>`;
-        }).join('');
-    }
+    }).join('');
+  }
 
-    function renderGCanales() {
-        const movs = getMovsGraf().filter(m=>m.tipo==='ing');
-        const por = {};
-        movs.forEach(m => { por[m.categoria] = (por[m.categoria]||0) + m.monto; });
-        const total = Object.values(por).reduce((s,v)=>s+v,0);
-        const zona = document.getElementById('g-canales');
-        if (!total) {
-            zona.innerHTML='<p class="t-d fs12 text-center">Sin ingresos.</p>';
-            return;
-        }
-        const entries = Object.entries(por).sort((a,b)=>b[1]-a[1]);
-        zona.innerHTML = `
+  function renderGCanales() {
+    const movs = getMovsGraf().filter(m=>m.tipo==='ing');
+    const por = {};
+    movs.forEach(m => { por[m.categoria] = (por[m.categoria]||0) + m.monto; });
+    const total = Object.values(por).reduce((s,v)=>s+v,0);
+    const zona = document.getElementById('g-canales');
+    if (!total) {
+      zona.innerHTML='<p class="t-d fs12 text-center">Sin ingresos.</p>';
+      return;
+    }
+    const entries = Object.entries(por).sort((a,b)=>b[1]-a[1]);
+    zona.innerHTML = `
     <div class="donut-wrap">
       <svg width="100" height="100" viewBox="0 0 100 100" style="flex-shrink:0">
         ${donut(entries.map(([k,v])=>({color:catColor(k),pct:v/total})),40,50)}
@@ -2375,21 +2375,21 @@ select.inp option { background: #fff; color: var(--texto); }
           <div class="bar-val">${fCOP(v)}</div>
         </div>`).join('')}
     </div>`;
-    }
+  }
 
-    function renderGGastos() {
-        renderGastosList();
-        const movs = getMovsGraf().filter(m=>m.tipo==='gas');
-        const por = {};
-        movs.forEach(m => { por[m.categoria] = (por[m.categoria]||0) + m.monto; });
-        const total = Object.values(por).reduce((s,v)=>s+v,0);
-        const zona = document.getElementById('g-gastos-dona');
-        if (!total) {
-            zona.innerHTML='<p class="t-d fs12 text-center">Sin gastos.</p>';
-            return;
-        }
-        const entries = Object.entries(por).sort((a,b)=>b[1]-a[1]);
-        zona.innerHTML = `
+  function renderGGastos() {
+    renderGastosList();
+    const movs = getMovsGraf().filter(m=>m.tipo==='gas');
+    const por = {};
+    movs.forEach(m => { por[m.categoria] = (por[m.categoria]||0) + m.monto; });
+    const total = Object.values(por).reduce((s,v)=>s+v,0);
+    const zona = document.getElementById('g-gastos-dona');
+    if (!total) {
+      zona.innerHTML='<p class="t-d fs12 text-center">Sin gastos.</p>';
+      return;
+    }
+    const entries = Object.entries(por).sort((a,b)=>b[1]-a[1]);
+    zona.innerHTML = `
     <div class="donut-wrap">
       <svg width="100" height="100" viewBox="0 0 100 100" style="flex-shrink:0">
         ${donut(entries.map(([k,v])=>({color:catColor(k),pct:v/total})),40,50)}
@@ -2403,19 +2403,19 @@ select.inp option { background: #fff; color: var(--texto); }
           </div>`).join('')}
       </div>
     </div>`;
-    }
+  }
 
-    function renderGastosList() {
-        const filtro = document.getElementById('filtro-mes')?.value || `${APP.anio}-${pad(APP.mes)}`;
-        const gastos = APP.movimientos.filter(m => m.tipo==='gas' && m.fecha && m.fecha.startsWith(filtro));
-        const total = gastos.reduce((s,m)=>s+(m.monto||0),0);
-        document.getElementById('g-gas-total-list').textContent = fCOP(total);
-        const zona = document.getElementById('g-gastos-list');
-        if (!gastos.length) {
-            zona.innerHTML = '<p class="t-d fs12 text-center p-3">Sin gastos.</p>';
-            return;
-        }
-        zona.innerHTML = gastos.map(g => `
+  function renderGastosList() {
+    const filtro = document.getElementById('filtro-mes')?.value || `${APP.anio}-${pad(APP.mes)}`;
+    const gastos = APP.movimientos.filter(m => m.tipo==='gas' && m.fecha && m.fecha.startsWith(filtro));
+    const total = gastos.reduce((s,m)=>s+(m.monto||0),0);
+    document.getElementById('g-gas-total-list').textContent = fCOP(total);
+    const zona = document.getElementById('g-gastos-list');
+    if (!gastos.length) {
+      zona.innerHTML = '<p class="t-d fs12 text-center p-3">Sin gastos.</p>';
+      return;
+    }
+    zona.innerHTML = gastos.map(g => `
     <div class="hitem">
       <div class="hico" style="background:${catColor(g.categoria)}18">
         <span style="color:${catColor(g.categoria)}">${catEmoji(g.categoria)}</span>
@@ -2433,43 +2433,43 @@ select.inp option { background: #fff; color: var(--texto); }
         </div>
       </div>
     </div>`).join('');
-    }
+  }
 
-    function renderGAuto() {
-        const cargas = APP.cargas;
-        const gasGas = APP.movimientos
+  function renderGAuto() {
+    const cargas = APP.cargas;
+    const gasGas = APP.movimientos
             .filter(m=>m.categoria==='gasolina').reduce((s,m)=>s+(m.monto||0),0);
-        document.getElementById('f-cargas').textContent = cargas.length;
-        const totGal = cargas.reduce((s,c)=>s+(c.galones||0),0);
-        document.getElementById('f-galones').textContent = totGal.toFixed(2)+' gal';
-        document.getElementById('f-gtotal').textContent = fCOP(gasGas);
-        const pgal = (APP.cfg.precio_gasolina||4500) * 3.785;
-        document.getElementById('f-pgal').textContent = fCOP(Math.round(pgal));
-        const cKm = cargas.filter(c=>c.km>0&&c.galones>0);
-        if (cKm.length) {
-            const rend = cKm.reduce((s,c)=>s+(c.km/c.galones),0)/cKm.length;
-            document.getElementById('f-rend').textContent = rend.toFixed(1)+' km/gal';
-            document.getElementById('f-efic-txt').textContent = rend.toFixed(1)+' km/gal';
-            const pct = Math.min(100,Math.max(0,(rend-8)/(18-8)*100));
-            document.getElementById('f-efic-mark').style.left = pct+'%';
-            const ckm = pgal>0&&rend>0 ? pgal/rend : 0;
-            document.getElementById('f-costo').textContent = ckm>0 ? fCOP(Math.round(ckm))+'/km' : '—';
-        } else {
-            const rL = APP.cfg.rendimiento_kmL||9;
-            const rG = rL*3.785;
-            document.getElementById('f-rend').textContent = '~'+rG.toFixed(1)+' km/gal (est)';
-            document.getElementById('f-efic-txt').textContent = rG.toFixed(1)+' km/gal';
-            const pct = Math.min(100,Math.max(0,(rG-8)/(18-8)*100));
-            document.getElementById('f-efic-mark').style.left = pct+'%';
-            const ckm = pgal>0&&rG>0 ? pgal/rG : 0;
-            document.getElementById('f-costo').textContent = ckm>0 ? fCOP(Math.round(ckm))+'/km (est)' : '—';
-        }
-        const lista = document.getElementById('f-hist');
-        if (!cargas.length) {
-            lista.innerHTML='<p class="t-d fs12 text-center p-3">Sin cargas.</p>';
-            return;
-        }
-        lista.innerHTML = cargas.map(c => `
+    document.getElementById('f-cargas').textContent = cargas.length;
+    const totGal = cargas.reduce((s,c)=>s+(c.galones||0),0);
+    document.getElementById('f-galones').textContent = totGal.toFixed(2)+' gal';
+    document.getElementById('f-gtotal').textContent = fCOP(gasGas);
+    const pgal = (APP.cfg.precio_gasolina||4500) * 3.785;
+    document.getElementById('f-pgal').textContent = fCOP(Math.round(pgal));
+    const cKm = cargas.filter(c=>c.km>0&&c.galones>0);
+    if (cKm.length) {
+      const rend = cKm.reduce((s,c)=>s+(c.km/c.galones),0)/cKm.length;
+      document.getElementById('f-rend').textContent = rend.toFixed(1)+' km/gal';
+      document.getElementById('f-efic-txt').textContent = rend.toFixed(1)+' km/gal';
+      const pct = Math.min(100,Math.max(0,(rend-8)/(18-8)*100));
+      document.getElementById('f-efic-mark').style.left = pct+'%';
+      const ckm = pgal>0&&rend>0 ? pgal/rend : 0;
+      document.getElementById('f-costo').textContent = ckm>0 ? fCOP(Math.round(ckm))+'/km' : '—';
+    } else {
+      const rL = APP.cfg.rendimiento_kmL||9;
+      const rG = rL*3.785;
+      document.getElementById('f-rend').textContent = '~'+rG.toFixed(1)+' km/gal (est)';
+      document.getElementById('f-efic-txt').textContent = rG.toFixed(1)+' km/gal';
+      const pct = Math.min(100,Math.max(0,(rG-8)/(18-8)*100));
+      document.getElementById('f-efic-mark').style.left = pct+'%';
+      const ckm = pgal>0&&rG>0 ? pgal/rG : 0;
+      document.getElementById('f-costo').textContent = ckm>0 ? fCOP(Math.round(ckm))+'/km (est)' : '—';
+    }
+    const lista = document.getElementById('f-hist');
+    if (!cargas.length) {
+      lista.innerHTML='<p class="t-d fs12 text-center p-3">Sin cargas.</p>';
+      return;
+    }
+    lista.innerHTML = cargas.map(c => `
     <div class="hitem">
       <div class="hico" style="background:var(--rojo-l)">
         <span style="color:var(--rojo)">⛽</span>
@@ -2487,406 +2487,406 @@ select.inp option { background: #fff; color: var(--texto); }
         </div>
       </div>
     </div>`).join('');
-    }
+  }
 
-    // ══════════════════════════════════════════════════
-    // COMBUSTIBLE
-    // ══════════════════════════════════════════════════
-    function modalCombustible() {
-        document.getElementById('c-fecha').value = APP.hoy;
-        document.getElementById('c-gal').value = '';
-        document.getElementById('c-precio').value = '';
-        document.getElementById('c-km').value = '';
-        document.getElementById('c-preview').style.display = 'none';
-        APP.modales.mdComb.show();
-    }
+  // ══════════════════════════════════════════════════
+  // COMBUSTIBLE
+  // ══════════════════════════════════════════════════
+  function modalCombustible() {
+    document.getElementById('c-fecha').value = APP.hoy;
+    document.getElementById('c-gal').value = '';
+    document.getElementById('c-precio').value = '';
+    document.getElementById('c-km').value = '';
+    document.getElementById('c-preview').style.display = 'none';
+    APP.modales.mdComb.show();
+  }
 
-    function prevCombustible() {
-        const gal = parseFloat(document.getElementById('c-gal').value)||0;
-        const precio = parseInt(document.getElementById('c-precio').value)||0;
-        const km = parseInt(document.getElementById('c-km').value)||0;
-        if (!gal) return;
-        let txt = `<strong>Carga:</strong> ${gal} gal`;
-        if (precio>0) txt += ` | <strong>$/gal:</strong> ${fCOP(Math.round(precio/gal))}`;
-        if (km>0&&gal>0) txt += ` | <strong>Rendimiento:</strong> <strong class="t-v">${(km/gal).toFixed(1)} km/gal</strong>`;
-        if (precio>0&&km>0) txt += ` | <strong>Costo/km:</strong> ${fCOP(Math.round(precio/km))}`;
-        document.getElementById('c-prev-txt').innerHTML = txt;
-        document.getElementById('c-preview').style.display = 'block';
-    }
+  function prevCombustible() {
+    const gal = parseFloat(document.getElementById('c-gal').value)||0;
+    const precio = parseInt(document.getElementById('c-precio').value)||0;
+    const km = parseInt(document.getElementById('c-km').value)||0;
+    if (!gal) return;
+    let txt = `<strong>Carga:</strong> ${gal} gal`;
+    if (precio>0) txt += ` | <strong>$/gal:</strong> ${fCOP(Math.round(precio/gal))}`;
+    if (km>0&&gal>0) txt += ` | <strong>Rendimiento:</strong> <strong class="t-v">${(km/gal).toFixed(1)} km/gal</strong>`;
+    if (precio>0&&km>0) txt += ` | <strong>Costo/km:</strong> ${fCOP(Math.round(precio/km))}`;
+    document.getElementById('c-prev-txt').innerHTML = txt;
+    document.getElementById('c-preview').style.display = 'block';
+  }
 
-    async function guardarCarga() {
-        const fecha = document.getElementById('c-fecha').value;
-        const gal = parseFloat(document.getElementById('c-gal').value);
-        const precio = parseInt(document.getElementById('c-precio').value)||0;
-        const km = parseInt(document.getElementById('c-km').value)||0;
-        if (!fecha||!gal||gal<=0) {
-            Swal.fire({ icon:'warning', title:'Faltan datos', text:'Fecha y galones son obligatorios.' });
-            return;
-        }
-        await DB.collection(C.combustible).add({ fecha, galones:gal, precio_total:precio, km, creado:new Date().toISOString() });
-        if (precio>0) {
-            await DB.collection(C.movs).add({ fecha, tipo:'gas', categoria:'gasolina', monto:precio, descripcion:`${gal} gal${km>0?' — '+km+' km':''}`, creado:new Date().toISOString() });
-        }
-        APP.modales.mdComb.hide();
-        await Promise.all([cargarCargas(), cargarMovs()]);
-        renderGAuto();
-        renderInicio();
-        Swal.fire({ icon:'success', title:'⛽ Carga registrada', text:`${gal} gal${km>0?' · '+(km/gal).toFixed(1)+' km/gal':''}`, timer:2000, showConfirmButton:false });
+  async function guardarCarga() {
+    const fecha = document.getElementById('c-fecha').value;
+    const gal = parseFloat(document.getElementById('c-gal').value);
+    const precio = parseInt(document.getElementById('c-precio').value)||0;
+    const km = parseInt(document.getElementById('c-km').value)||0;
+    if (!fecha||!gal||gal<=0) {
+      Swal.fire({ icon:'warning', title:'Faltan datos', text:'Fecha y galones son obligatorios.' });
+      return;
     }
-
-    async function eliminarCarga(id) {
-        const { isConfirmed } = await Swal.fire({
-            icon:'warning',
-            title:'¿Eliminar carga?',
-            showCancelButton:true,
-            confirmButtonText:'Sí',
-            cancelButtonText:'No'
-        });
-        if (!isConfirmed) return;
-        await DB.collection(C.combustible).doc(id).delete();
-        await cargarCargas();
-        renderGAuto();
+    await DB.collection(C.combustible).add({ fecha, galones:gal, precio_total:precio, km, creado:new Date().toISOString() });
+    if (precio>0) {
+      await DB.collection(C.movs).add({ fecha, tipo:'gas', categoria:'gasolina', monto:precio, descripcion:`${gal} gal${km>0?' — '+km+' km':''}`, creado:new Date().toISOString() });
     }
+    APP.modales.mdComb.hide();
+    await Promise.all([cargarCargas(), cargarMovs()]);
+    renderGAuto();
+    renderInicio();
+    Swal.fire({ icon:'success', title:'⛽ Carga registrada', text:`${gal} gal${km>0?' · '+(km/gal).toFixed(1)+' km/gal':''}`, timer:2000, showConfirmButton:false });
+  }
 
-    // ══════════════════════════════════════════════════
-    // CALENDARIO Y TURNO
-    // ══════════════════════════════════════════════════
-    async function renderCal() {
-        const regs = await getRegsMes();
-        const festivos = getFestivos(APP.anio);
-        const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
-        const iniSem = new Date(APP.anio, APP.mes-1, 1).getDay();
-        document.getElementById('cal-mes').textContent = new Date(APP.anio, APP.mes-1, 1)
+  async function eliminarCarga(id) {
+    const { isConfirmed } = await Swal.fire({
+      icon:'warning',
+      title:'¿Eliminar carga?',
+      showCancelButton:true,
+      confirmButtonText:'Sí',
+      cancelButtonText:'No'
+    });
+    if (!isConfirmed) return;
+    await DB.collection(C.combustible).doc(id).delete();
+    await cargarCargas();
+    renderGAuto();
+  }
+
+  // ══════════════════════════════════════════════════
+  // CALENDARIO Y TURNO
+  // ══════════════════════════════════════════════════
+  async function renderCal() {
+    const regs = await getRegsMes();
+    const festivos = getFestivos(APP.anio);
+    const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
+    const iniSem = new Date(APP.anio, APP.mes-1, 1).getDay();
+    document.getElementById('cal-mes').textContent = new Date(APP.anio, APP.mes-1, 1)
             .toLocaleDateString('es-CO', { month:'long', year:'numeric' })
             .toUpperCase();
-        const grid = document.getElementById('cal-grid');
-        grid.querySelectorAll('.cal-d').forEach(e => e.remove());
-        for (let i = 0; i < iniSem; i++) {
-            const v = document.createElement('div');
-            v.className='cal-d vac';
-            grid.appendChild(v);
-        }
-        for (let d = 1; d <= diasMes; d++) {
-            const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
-            const reg = regs[fs] || null;
-            const fest = festivos.has(fs);
-            const dom = new Date(fs+'T12:00:00').getDay() === 0;
-            const cel = document.createElement('div');
-            cel.className = 'cal-d';
-            if (fs === APP.hoy) {
-                cel.classList.add('hoy');
-                cel.addEventListener('click', iniciarRegistro);
-                cel.title = 'Hoy — toca para registrar';
-            } else if (fs > APP.hoy) {
-                cel.classList.add('fut');
-                cel.classList.add(fest ? 'fest' : dom ? 'ddom' : 'lp');
-            } else if (fest) {
-                cel.classList.add('fest');
-            } else if (dom) {
-                cel.classList.add('ddom');
-            } else {
-                if (reg?.trabajo === true) cel.classList.add('tsi');
-                else if (reg?.trabajo === false) cel.classList.add('tno');
-                else cel.classList.add('lp');
-            }
-            const num = document.createElement('span');
-            num.className = 'cn';
-            num.textContent = d;
-            let ico = '';
-            const modo = APP.cfg.modo;
-            if (reg?.trabajo === true) {
-                const ok = modo==='ahorro_carro' ? reg.cuota_cumplida : reg.alquiler_cumplido;
-                ico = ok ? '<i class="fa-solid fa-circle-check" style="color:var(--verde)"></i>' : '<i class="fa-solid fa-circle-half-stroke" style="color:var(--amarillo)"></i>';
-            } else if (reg?.trabajo === false && !fest && !dom) {
-                ico = '<i class="fa-solid fa-circle-xmark" style="color:var(--rojo)"></i>';
-            } else if (fest) {
-                ico = '<i class="fa-solid fa-star" style="color:var(--amarillo);opacity:.7"></i>';
-            }
-            cel.appendChild(num);
-            if (ico) {
-                const ic = document.createElement('span');
-                ic.className = 'ci';
-                ic.innerHTML = ico;
-                cel.appendChild(ic);
-            }
-            grid.appendChild(cel);
-        }
-        renderTurnoStats();
+    const grid = document.getElementById('cal-grid');
+    grid.querySelectorAll('.cal-d').forEach(e => e.remove());
+    for (let i = 0; i < iniSem; i++) {
+      const v = document.createElement('div');
+      v.className='cal-d vac';
+      grid.appendChild(v);
+    }
+    for (let d = 1; d <= diasMes; d++) {
+      const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
+      const reg = regs[fs] || null;
+      const fest = festivos.has(fs);
+      const dom = new Date(fs+'T12:00:00').getDay() === 0;
+      const cel = document.createElement('div');
+      cel.className = 'cal-d';
+      if (fs === APP.hoy) {
+        cel.classList.add('hoy');
+        cel.addEventListener('click', iniciarRegistro);
+        cel.title = 'Hoy — toca para registrar';
+      } else if (fs > APP.hoy) {
+        cel.classList.add('fut');
+        cel.classList.add(fest ? 'fest' : dom ? 'ddom' : 'lp');
+      } else if (fest) {
+        cel.classList.add('fest');
+      } else if (dom) {
+        cel.classList.add('ddom');
+      } else {
+        if (reg?.trabajo === true) cel.classList.add('tsi');
+        else if (reg?.trabajo === false) cel.classList.add('tno');
+        else cel.classList.add('lp');
+      }
+      const num = document.createElement('span');
+      num.className = 'cn';
+      num.textContent = d;
+      let ico = '';
+      const modo = APP.cfg.modo;
+      if (reg?.trabajo === true) {
+        const ok = modo==='ahorro_carro' ? reg.cuota_cumplida : reg.alquiler_cumplido;
+        ico = ok ? '<i class="fa-solid fa-circle-check" style="color:var(--verde)"></i>' : '<i class="fa-solid fa-circle-half-stroke" style="color:var(--amarillo)"></i>';
+      } else if (reg?.trabajo === false && !fest && !dom) {
+        ico = '<i class="fa-solid fa-circle-xmark" style="color:var(--rojo)"></i>';
+      } else if (fest) {
+        ico = '<i class="fa-solid fa-star" style="color:var(--amarillo);opacity:.7"></i>';
+      }
+      cel.appendChild(num);
+      if (ico) {
+        const ic = document.createElement('span');
+        ic.className = 'ci';
+        ic.innerHTML = ico;
+        cel.appendChild(ic);
+      }
+      grid.appendChild(cel);
+    }
+    renderTurnoStats();
+  }
+
+  async function renderTurnoStats() {
+    const regs = await getRegsMes();
+    const festivos = getFestivos(APP.anio);
+    const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
+    const modo = APP.cfg.modo;
+    let diasTrab = 0, totAhorro = 0, totAlq = 0;
+    Object.values(regs).forEach(r => {
+      if (r.trabajo) {
+        diasTrab++;
+        totAhorro += r.monto_ahorrado || 0;
+        totAlq += r.valor_alquiler_hecho || 0;
+      }
+    });
+    let diasRest = 0;
+    for (let d = 1; d <= diasMes; d++) {
+      const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
+      if (fs <= APP.hoy) continue;
+      if (new Date(fs+'T12:00:00').getDay()!==0 && !festivos.has(fs)) diasRest++;
+    }
+    document.getElementById('cal-trab').textContent = diasTrab;
+    document.getElementById('cal-rest').textContent = diasRest;
+    if (modo === 'alquiler_diario') {
+      const ca = APP.cfg.cuota_alquiler || 0;
+      let diasLab = 0;
+      for (let d=1; d<=diasMes; d++) {
+        const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
+        if (new Date(fs+'T12:00:00').getDay()!==0 && !festivos.has(fs)) diasLab++;
+      }
+      const meta = ca * diasLab;
+      document.getElementById('cal-total').textContent = fCOP(totAlq);
+      document.getElementById('cal-total-lbl').textContent = 'Alquiler cobrado';
+      document.getElementById('cal-meta').textContent = fCOP(meta);
+      document.getElementById('cal-meta-lbl').textContent = 'Meta del mes';
+      const pct = meta>0 ? Math.min(100,Math.round(totAlq/meta*100)) : 0;
+      document.getElementById('prog-mes').style.width = pct+'%';
+      document.getElementById('prog-mes-pct').textContent = pct+'%';
+      const diff = Math.max(0, meta-totAlq);
+      const dn = diff>0&&ca>0 ? Math.ceil(diff/ca) : 0;
+      actualizarZonaEstado({ alcanza:diff<=0, diff, diasNec:dn, diasRest, total:totAlq, meta });
+    } else if (modo === 'ahorro_carro') {
+      const cv = APP.cfg.cuota_vehiculo || 0;
+      const cd = APP.cfg.cuota_diaria_ahorro || 0;
+      document.getElementById('cal-total').textContent = fCOP(totAhorro);
+      document.getElementById('cal-total-lbl').textContent = 'Total ahorrado';
+      document.getElementById('cal-meta').textContent = fCOP(cv);
+      document.getElementById('cal-meta-lbl').textContent = 'Cuota vehículo';
+      const pct = cv>0 ? Math.min(100,Math.round(totAhorro/cv*100)) : 0;
+      document.getElementById('prog-mes').style.width = pct+'%';
+      document.getElementById('prog-mes-pct').textContent = pct+'%';
+      const diff = Math.max(0, cv-totAhorro);
+      const dn = diff>0&&cd>0 ? Math.ceil(diff/cd) : 0;
+      actualizarZonaEstado({ alcanza:diff<=0, diff, diasNec:dn, diasRest, total:totAhorro, meta:cv });
+    }
+  }
+
+  function actualizarZonaEstado({ alcanza, diff, diasNec, diasRest, total, meta }) {
+    const ze = document.getElementById('zona-estado');
+    const za = document.getElementById('anal-dias');
+    if (!meta||meta<=0) {
+      ze.innerHTML='<span class="chip chip-amarillo"><i class="fa-solid fa-circle-info me-1"></i>Configura la meta</span>';
+      za.className='anal-card amarillo';
+      za.innerHTML='<i class="fa-solid fa-circle-info me-1"></i><span class="fs12">Configura la cuota en Metas para ver el análisis.</span>';
+      return;
+    }
+    if (alcanza) {
+      ze.innerHTML='<span class="chip chip-verde"><i class="fa-solid fa-trophy me-1"></i>¡Meta del mes alcanzada! 🎉</span>';
+      za.className='anal-card';
+      za.innerHTML=`<i class="fa-solid fa-trophy me-1"></i><span class="fs12">¡Llevas <strong>${fCOP(total)}</strong> y la meta es <strong>${fCOP(meta)}</strong>. ¡Excelente trabajo!</span>`;
+    } else if (diasRest===0) {
+      ze.innerHTML=`<span class="chip chip-rojo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
+      za.className='anal-card rojo';
+      za.innerHTML=`<i class="fa-solid fa-triangle-exclamation me-1"></i><span class="fs12">Sin días restantes este mes. Faltaron <strong>${fCOP(diff)}</strong>.</span>`;
+    } else if (diasNec>diasRest) {
+      ze.innerHTML=`<span class="chip chip-rojo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
+      za.className='anal-card rojo';
+      za.innerHTML=`<i class="fa-solid fa-exclamation-circle me-1"></i><span class="fs12"> Necesitas <strong>${diasNec}</strong> días más pero quedan solo <strong>${diasRest}</strong>. Faltarán <strong>${fCOP(diff)}</strong> al cierre del mes. </span>`;
+    } else {
+      ze.innerHTML=`<span class="chip chip-amarillo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
+      za.className='anal-card amarillo';
+      za.innerHTML=`<i class="fa-solid fa-calculator me-1"></i><span class="fs12"> Debes trabajar <strong>${diasNec}</strong> día${diasNec!==1?'s':''} más para completar la meta. Quedan <strong>${diasRest}</strong> días laborables disponibles. ¡Estás a tiempo! </span>`;
+    }
+  }
+
+  // ══════════════════════════════════════════════════
+  // REGISTRO DIARIO — FLUJO COMPLETO
+  // ══════════════════════════════════════════════════
+  async function verificarHoy() {
+    const reg = await getReg(APP.hoy);
+    const esNoLab = esNoLaborable(APP.hoy, APP.anio);
+    APP.estadoHoy = { reg, completo: !!reg, esNoLab };
+    ['btn-reg-hoy','btn-reg-turno'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      if (esNoLab) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-umbrella-beach me-1"></i>Festivo / Domingo';
+        return;
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-pen-to-square me-1"></i>Registrar Día';
+    });
+    ['hoy-ok','turno-ok'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('d-none', !reg || esNoLab);
+    });
+    document.getElementById('btn-reg-hoy')?.classList.toggle('d-none', !!reg && !esNoLab);
+    document.getElementById('btn-reg-turno')?.classList.toggle('d-none', !!reg && !esNoLab);
+  }
+
+  async function iniciarRegistro() {
+    if (APP.estadoHoy?.esNoLab) {
+      Swal.fire({ icon:'info', title:'Día no laborable 😎', text:'Hoy es festivo o domingo. ¡Descansa!' });
+      return;
+    }
+    const modo = APP.cfg.modo;
+
+    const { value: trabajo } = await Swal.fire({
+      title: '¿Trabajaste hoy? 💼',
+      html: `<p style="color:var(--texto2);font-size:13px"> ${new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'})} </p>`,
+      icon: 'question',
+      showDenyButton: true,
+      allowOutsideClick: false,
+      confirmButtonText: '<i class="fa-solid fa-briefcase me-1"></i> Sí, trabajé',
+      denyButtonText: '<i class="fa-solid fa-house me-1"></i> No trabajé',
+    });
+    if (trabajo === undefined) return;
+    if (!trabajo) {
+      await setReg(APP.hoy, { trabajo: false, modo, cuota_cumplida: false, monto_ahorrado: 0, alquiler_cumplido: false, valor_alquiler_hecho: 0 });
+      await Swal.fire({ icon:'info', title:'Registrado 😴', text:'Día sin trabajo guardado correctamente.', timer: 1800, showConfirmButton: false });
+      return refrescarTurno();
     }
 
-    async function renderTurnoStats() {
-        const regs = await getRegsMes();
-        const festivos = getFestivos(APP.anio);
-        const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
-        const modo = APP.cfg.modo;
-        let diasTrab = 0, totAhorro = 0, totAlq = 0;
-        Object.values(regs).forEach(r => {
-            if (r.trabajo) {
-                diasTrab++;
-                totAhorro += r.monto_ahorrado || 0;
-                totAlq += r.valor_alquiler_hecho || 0;
-            }
-        });
-        let diasRest = 0;
-        for (let d = 1; d <= diasMes; d++) {
-            const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
-            if (fs <= APP.hoy) continue;
-            if (new Date(fs+'T12:00:00').getDay()!==0 && !festivos.has(fs)) diasRest++;
-        }
-        document.getElementById('cal-trab').textContent = diasTrab;
-        document.getElementById('cal-rest').textContent = diasRest;
-        if (modo === 'alquiler_diario') {
-            const ca = APP.cfg.cuota_alquiler || 0;
-            let diasLab = 0;
-            for (let d=1; d<=diasMes; d++) {
-                const fs = `${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
-                if (new Date(fs+'T12:00:00').getDay()!==0 && !festivos.has(fs)) diasLab++;
-            }
-            const meta = ca * diasLab;
-            document.getElementById('cal-total').textContent = fCOP(totAlq);
-            document.getElementById('cal-total-lbl').textContent = 'Alquiler cobrado';
-            document.getElementById('cal-meta').textContent = fCOP(meta);
-            document.getElementById('cal-meta-lbl').textContent = 'Meta del mes';
-            const pct = meta>0 ? Math.min(100,Math.round(totAlq/meta*100)) : 0;
-            document.getElementById('prog-mes').style.width = pct+'%';
-            document.getElementById('prog-mes-pct').textContent = pct+'%';
-            const diff = Math.max(0, meta-totAlq);
-            const dn = diff>0&&ca>0 ? Math.ceil(diff/ca) : 0;
-            actualizarZonaEstado({ alcanza:diff<=0, diff, diasNec:dn, diasRest, total:totAlq, meta });
-        } else if (modo === 'ahorro_carro') {
-            const cv = APP.cfg.cuota_vehiculo || 0;
-            const cd = APP.cfg.cuota_diaria_ahorro || 0;
-            document.getElementById('cal-total').textContent = fCOP(totAhorro);
-            document.getElementById('cal-total-lbl').textContent = 'Total ahorrado';
-            document.getElementById('cal-meta').textContent = fCOP(cv);
-            document.getElementById('cal-meta-lbl').textContent = 'Cuota vehículo';
-            const pct = cv>0 ? Math.min(100,Math.round(totAhorro/cv*100)) : 0;
-            document.getElementById('prog-mes').style.width = pct+'%';
-            document.getElementById('prog-mes-pct').textContent = pct+'%';
-            const diff = Math.max(0, cv-totAhorro);
-            const dn = diff>0&&cd>0 ? Math.ceil(diff/cd) : 0;
-            actualizarZonaEstado({ alcanza:diff<=0, diff, diasNec:dn, diasRest, total:totAhorro, meta:cv });
-        }
-    }
+    if (modo === 'alquiler_diario') {
+      const cuota = APP.cfg.cuota_alquiler || 0;
+      const { value: alqSi } = await Swal.fire({
+        title: '¿Realizaste la cuota de alquiler? 🏠',
+        html: `<p style="color:var(--texto2);font-size:13px"> Cuota diaria: <strong style="color:var(--verde)">${fCOP(cuota)}</strong> </p>`,
+        icon: 'question',
+        showDenyButton: true,
+        allowOutsideClick: false,
+        confirmButtonText: '<i class="fa-solid fa-house me-1"></i> Sí, pagué la cuota',
+        denyButtonText: '<i class="fa-solid fa-xmark me-1"></i> No pagué hoy',
+      });
+      if (alqSi === undefined) return;
 
-    function actualizarZonaEstado({ alcanza, diff, diasNec, diasRest, total, meta }) {
-        const ze = document.getElementById('zona-estado');
-        const za = document.getElementById('anal-dias');
-        if (!meta||meta<=0) {
-            ze.innerHTML='<span class="chip chip-amarillo"><i class="fa-solid fa-circle-info me-1"></i>Configura la meta</span>';
-            za.className='anal-card amarillo';
-            za.innerHTML='<i class="fa-solid fa-circle-info me-1"></i><span class="fs12">Configura la cuota en Metas para ver el análisis.</span>';
-            return;
-        }
-        if (alcanza) {
-            ze.innerHTML='<span class="chip chip-verde"><i class="fa-solid fa-trophy me-1"></i>¡Meta del mes alcanzada! 🎉</span>';
-            za.className='anal-card';
-            za.innerHTML=`<i class="fa-solid fa-trophy me-1"></i><span class="fs12">¡Llevas <strong>${fCOP(total)}</strong> y la meta es <strong>${fCOP(meta)}</strong>. ¡Excelente trabajo!</span>`;
-        } else if (diasRest===0) {
-            ze.innerHTML=`<span class="chip chip-rojo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
-            za.className='anal-card rojo';
-            za.innerHTML=`<i class="fa-solid fa-triangle-exclamation me-1"></i><span class="fs12">Sin días restantes este mes. Faltaron <strong>${fCOP(diff)}</strong>.</span>`;
-        } else if (diasNec>diasRest) {
-            ze.innerHTML=`<span class="chip chip-rojo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
-            za.className='anal-card rojo';
-            za.innerHTML=`<i class="fa-solid fa-exclamation-circle me-1"></i><span class="fs12"> Necesitas <strong>${diasNec}</strong> días más pero quedan solo <strong>${diasRest}</strong>. Faltarán <strong>${fCOP(diff)}</strong> al cierre del mes. </span>`;
-        } else {
-            ze.innerHTML=`<span class="chip chip-amarillo"><i class="fa-solid fa-triangle-exclamation me-1"></i>Faltan ${fCOP(diff)}</span>`;
-            za.className='anal-card amarillo';
-            za.innerHTML=`<i class="fa-solid fa-calculator me-1"></i><span class="fs12"> Debes trabajar <strong>${diasNec}</strong> día${diasNec!==1?'s':''} más para completar la meta. Quedan <strong>${diasRest}</strong> días laborables disponibles. ¡Estás a tiempo! </span>`;
-        }
-    }
-
-    // ══════════════════════════════════════════════════
-    // REGISTRO DIARIO — FLUJO COMPLETO
-    // ══════════════════════════════════════════════════
-    async function verificarHoy() {
-        const reg = await getReg(APP.hoy);
-        const esNoLab = esNoLaborable(APP.hoy, APP.anio);
-        APP.estadoHoy = { reg, completo: !!reg, esNoLab };
-        ['btn-reg-hoy','btn-reg-turno'].forEach(id => {
-            const btn = document.getElementById(id);
-            if (!btn) return;
-            if (esNoLab) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-umbrella-beach me-1"></i>Festivo / Domingo';
-                return;
-            }
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-pen-to-square me-1"></i>Registrar Día';
-        });
-        ['hoy-ok','turno-ok'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('d-none', !reg || esNoLab);
-        });
-        document.getElementById('btn-reg-hoy')?.classList.toggle('d-none', !!reg && !esNoLab);
-        document.getElementById('btn-reg-turno')?.classList.toggle('d-none', !!reg && !esNoLab);
-    }
-
-    async function iniciarRegistro() {
-        if (APP.estadoHoy?.esNoLab) {
-            Swal.fire({ icon:'info', title:'Día no laborable 😎', text:'Hoy es festivo o domingo. ¡Descansa!' });
-            return;
-        }
-        const modo = APP.cfg.modo;
-
-        const { value: trabajo } = await Swal.fire({
-            title: '¿Trabajaste hoy? 💼',
-            html: `<p style="color:var(--texto2);font-size:13px"> ${new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'})} </p>`,
-            icon: 'question',
-            showDenyButton: true,
-            allowOutsideClick: false,
-            confirmButtonText: '<i class="fa-solid fa-briefcase me-1"></i> Sí, trabajé',
-            denyButtonText: '<i class="fa-solid fa-house me-1"></i> No trabajé',
-        });
-        if (trabajo === undefined) return;
-        if (!trabajo) {
-            await setReg(APP.hoy, { trabajo: false, modo, cuota_cumplida: false, monto_ahorrado: 0, alquiler_cumplido: false, valor_alquiler_hecho: 0 });
-            await Swal.fire({ icon:'info', title:'Registrado 😴', text:'Día sin trabajo guardado correctamente.', timer: 1800, showConfirmButton: false });
-            return refrescarTurno();
-        }
-
-        if (modo === 'alquiler_diario') {
-            const cuota = APP.cfg.cuota_alquiler || 0;
-            const { value: alqSi } = await Swal.fire({
-                title: '¿Realizaste la cuota de alquiler? 🏠',
-                html: `<p style="color:var(--texto2);font-size:13px"> Cuota diaria: <strong style="color:var(--verde)">${fCOP(cuota)}</strong> </p>`,
-                icon: 'question',
-                showDenyButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: '<i class="fa-solid fa-house me-1"></i> Sí, pagué la cuota',
-                denyButtonText: '<i class="fa-solid fa-xmark me-1"></i> No pagué hoy',
-            });
-            if (alqSi === undefined) return;
-
-            let valorReal = alqSi ? cuota : 0;
-            if (alqSi) {
-                const { value: vExacto } = await Swal.fire({
-                    title: '¿Cuál fue el valor exacto pagado? 💵',
-                    html: `<p style="color:var(--texto2);font-size:13px;margin-bottom:8px"> Cuota esperada: <strong style="color:var(--verde)">${fCOP(cuota)}</strong> </p>
+      let valorReal = alqSi ? cuota : 0;
+      if (alqSi) {
+        const { value: vExacto } = await Swal.fire({
+          title: '¿Cuál fue el valor exacto pagado? 💵',
+          html: `<p style="color:var(--texto2);font-size:13px;margin-bottom:8px"> Cuota esperada: <strong style="color:var(--verde)">${fCOP(cuota)}</strong> </p>
                <input type="number" id="sw-alq-v" class="swal2-input" value="${cuota}" min="0" step="1000" placeholder="Valor pagado hoy" inputmode="numeric"/>`,
-                    confirmButtonText: 'Guardar',
-                    allowOutsideClick: false,
-                    preConfirm: () => {
-                        const v = parseInt(document.getElementById('sw-alq-v').value) || 0;
-                        if (v < 0) {
-                            Swal.showValidationMessage('Ingresa un valor válido');
-                            return false;
-                        }
-                        return v;
-                    }
-                });
-                if (vExacto === undefined) return;
-                valorReal = vExacto;
+          confirmButtonText: 'Guardar',
+          allowOutsideClick: false,
+          preConfirm: () => {
+            const v = parseInt(document.getElementById('sw-alq-v').value) || 0;
+            if (v < 0) {
+              Swal.showValidationMessage('Ingresa un valor válido');
+              return false;
             }
-            await setReg(APP.hoy, { trabajo: true, modo, cuota_cumplida: false, monto_ahorrado: 0, alquiler_cumplido: !!alqSi, valor_alquiler_hecho: valorReal });
-            await Swal.fire({
-                icon: alqSi ? 'success' : 'warning',
-                title: alqSi ? '¡Registrado! 🎉' : 'Sin pago de alquiler hoy',
-                text: alqSi ? `Alquiler registrado: ${fCOP(valorReal)}` : `Cuota pendiente: ${fCOP(cuota)}`,
-                timer: 2200,
-                showConfirmButton: false
-            });
-        } else if (modo === 'ahorro_carro') {
-            const meta = APP.cfg.cuota_diaria_ahorro || 0;
-            const { value: ahoSi } = await Swal.fire({
-                title: '¿Hiciste la cuota de ahorro hoy? 💰',
-                html: `<p style="color:var(--texto2);font-size:13px"> Meta diaria: <strong style="color:var(--verde)">${fCOP(meta)}</strong> </p>`,
-                icon: 'question',
-                showDenyButton: true,
-                allowOutsideClick: false,
-                confirmButtonText: '<i class="fa-solid fa-piggy-bank me-1"></i> Sí, ahorré',
-                denyButtonText: '<i class="fa-solid fa-xmark me-1"></i> No ahorré hoy',
-            });
-            if (ahoSi === undefined) return;
-            await setReg(APP.hoy, { trabajo: true, modo, cuota_cumplida: !!ahoSi, monto_ahorrado: ahoSi ? meta : 0, alquiler_cumplido: false, valor_alquiler_hecho: 0 });
-            await Swal.fire({
-                icon: ahoSi ? 'success' : 'warning',
-                title: ahoSi ? '¡Excelente! 🎉' : 'Sin ahorro hoy',
-                text: ahoSi ? `Ahorro guardado: ${fCOP(meta)}` : `Meta pendiente: ${fCOP(meta)} diarios.`,
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-        refrescarTurno();
+            return v;
+          }
+        });
+        if (vExacto === undefined) return;
+        valorReal = vExacto;
+      }
+      await setReg(APP.hoy, { trabajo: true, modo, cuota_cumplida: false, monto_ahorrado: 0, alquiler_cumplido: !!alqSi, valor_alquiler_hecho: valorReal });
+      await Swal.fire({
+        icon: alqSi ? 'success' : 'warning',
+        title: alqSi ? '¡Registrado! 🎉' : 'Sin pago de alquiler hoy',
+        text: alqSi ? `Alquiler registrado: ${fCOP(valorReal)}` : `Cuota pendiente: ${fCOP(cuota)}`,
+        timer: 2200,
+        showConfirmButton: false
+      });
+    } else if (modo === 'ahorro_carro') {
+      const meta = APP.cfg.cuota_diaria_ahorro || 0;
+      const { value: ahoSi } = await Swal.fire({
+        title: '¿Hiciste la cuota de ahorro hoy? 💰',
+        html: `<p style="color:var(--texto2);font-size:13px"> Meta diaria: <strong style="color:var(--verde)">${fCOP(meta)}</strong> </p>`,
+        icon: 'question',
+        showDenyButton: true,
+        allowOutsideClick: false,
+        confirmButtonText: '<i class="fa-solid fa-piggy-bank me-1"></i> Sí, ahorré',
+        denyButtonText: '<i class="fa-solid fa-xmark me-1"></i> No ahorré hoy',
+      });
+      if (ahoSi === undefined) return;
+      await setReg(APP.hoy, { trabajo: true, modo, cuota_cumplida: !!ahoSi, monto_ahorrado: ahoSi ? meta : 0, alquiler_cumplido: false, valor_alquiler_hecho: 0 });
+      await Swal.fire({
+        icon: ahoSi ? 'success' : 'warning',
+        title: ahoSi ? '¡Excelente! 🎉' : 'Sin ahorro hoy',
+        text: ahoSi ? `Ahorro guardado: ${fCOP(meta)}` : `Meta pendiente: ${fCOP(meta)} diarios.`,
+        timer: 2000,
+        showConfirmButton: false
+      });
     }
+    refrescarTurno();
+  }
 
-    async function refrescarTurno() {
-        await verificarHoy();
-        await renderCal();
-        renderInicio();
-        const regs = await getRegsMes();
-        const festivos = getFestivos(APP.anio);
-        const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
-        const modo = APP.cfg.modo;
-        let totAlq=0, totAho=0, diasTrab=0;
-        Object.values(regs).forEach(r=>{ if(r.trabajo){ diasTrab++;totAlq+=r.valor_alquiler_hecho||0;totAho+=r.monto_ahorrado||0; } });
-        let diasRest=0;
-        for(let d=1;d<=diasMes;d++){
-            const fs=`${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
-            if(fs<=APP.hoy)continue;
-            if(new Date(fs+'T12:00:00').getDay()!==0&&!festivos.has(fs)) diasRest++;
-        }
-        let total=0,meta=0,cuota=0;
-        if(modo==='alquiler_diario'){
-            let dl=0;
-            for(let d=1;d<=diasMes;d++){
-                const fs=`${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
-                if(new Date(fs+'T12:00:00').getDay()!==0&&!festivos.has(fs)) dl++;
-            }
-            cuota=APP.cfg.cuota_alquiler||0;
-            meta=cuota*dl;
-            total=totAlq;
-        } else {
-            cuota=APP.cfg.cuota_diaria_ahorro||0;
-            meta=APP.cfg.cuota_vehiculo||0;
-            total=totAho;
-        }
-        if(meta>0) mostrarAlertaFinal(total,meta,cuota,diasRest);
+  async function refrescarTurno() {
+    await verificarHoy();
+    await renderCal();
+    renderInicio();
+    const regs = await getRegsMes();
+    const festivos = getFestivos(APP.anio);
+    const diasMes = new Date(APP.anio, APP.mes, 0).getDate();
+    const modo = APP.cfg.modo;
+    let totAlq=0, totAho=0, diasTrab=0;
+    Object.values(regs).forEach(r=>{ if(r.trabajo){ diasTrab++;totAlq+=r.valor_alquiler_hecho||0;totAho+=r.monto_ahorrado||0; } });
+    let diasRest=0;
+    for(let d=1;d<=diasMes;d++){
+      const fs=`${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
+      if(fs<=APP.hoy)continue;
+      if(new Date(fs+'T12:00:00').getDay()!==0&&!festivos.has(fs)) diasRest++;
     }
-
-    function mostrarAlertaFinal(total,meta,cuota,diasRest) {
-        const diff = Math.max(0, meta-total);
-        const alc = diff<=0;
-        const dn = diff>0&&cuota>0 ? Math.ceil(diff/cuota) : 0;
-        let icon,title,html;
-        if(alc){
-            icon='success';title='¡Meta del mes alcanzada! 🏆';
-            html=`<p>Llevas <strong>${fCOP(total)}</strong> de <strong>${fCOP(meta)}</strong>. ¡Vas perfecto!</p>`;
-        } else if(dn>diasRest){
-            icon='error';title='⚠️ ¡Atención!';
-            html=`<p>Te faltan <strong style="color:var(--rojo)">${fCOP(diff)}</strong>.<br> Necesitas <strong>${dn}</strong> días más pero solo quedan <strong>${diasRest}</strong>.</p>`;
-        } else if(dn>0){
-            icon='warning';title='📊 Análisis del mes';
-            html=`<p>Llevas <strong>${fCOP(total)}</strong> de <strong>${fCOP(meta)}</strong>.<br> Debes trabajar <strong>${dn}</strong> día${dn!==1?'s':''} más. Quedan <strong>${diasRest}</strong> disponibles.</p>`;
-        } else return;
-        Swal.fire({ icon, title, html, confirmButtonText:'¡Entendido!' });
+    let total=0,meta=0,cuota=0;
+    if(modo==='alquiler_diario'){
+      let dl=0;
+      for(let d=1;d<=diasMes;d++){
+        const fs=`${APP.anio}-${pad(APP.mes)}-${pad(d)}`;
+        if(new Date(fs+'T12:00:00').getDay()!==0&&!festivos.has(fs)) dl++;
+      }
+      cuota=APP.cfg.cuota_alquiler||0;
+      meta=cuota*dl;
+      total=totAlq;
+    } else {
+      cuota=APP.cfg.cuota_diaria_ahorro||0;
+      meta=APP.cfg.cuota_vehiculo||0;
+      total=totAho;
     }
+    if(meta>0) mostrarAlertaFinal(total,meta,cuota,diasRest);
+  }
 
-    // ══════════════════════════════════════════════════
-    // PLAN DE AHORRO PERSONAL
-    // ══════════════════════════════════════════════════
-    function renderAhorro() {
-        const meta = APP.cfg.meta_ahorro || 4000000;
-        const total = APP.aportes.reduce((s,a) => s+(a.monto||0), 0);
-        const falta = Math.max(0, meta-total);
-        const pct = meta>0 ? Math.min(100,Math.round(total/meta*100)) : 0;
-        const off = 270 - (pct/100)*270;
-        document.getElementById('ring-ahorro').style.strokeDashoffset = off;
-        document.getElementById('ring-ahorro-pct').textContent = pct+'%';
-        document.getElementById('ahorro-tot').textContent = fCOP(total);
-        document.getElementById('ahorro-meta-disp').textContent= fCOP(meta);
-        document.getElementById('ahorro-pct-txt').textContent = pct+'%';
-        document.getElementById('prog-ahorro').style.width = pct+'%';
-        const cuota = APP.cfg.cuota_alquiler||APP.cfg.cuota_diaria_ahorro||60000;
-        const diaF = total<meta&&cuota>0 ? Math.ceil(falta/cuota) : 0;
-        document.getElementById('info-ahorro').innerHTML = total>=meta ? `<span class="t-v fw7">🏆 ¡Meta de <strong>${fCOP(meta)}</strong> alcanzada!</span>` : `Meta: <strong>${fCOP(meta)}</strong> | Falta: <strong class="t-r">${fCOP(falta)}</strong><br> Ahorrando <strong>${fCOP(cuota)}</strong>/día: aprox. <strong>${diaF}</strong> días más`;
-        const lista = document.getElementById('lista-aportes');
-        if (!APP.aportes.length) {
-            lista.innerHTML='<p class="t-d fs12 text-center p-3">Sin aportes aún.</p>';
-            return;
-        }
-        lista.innerHTML = APP.aportes.slice(0,8).map(a => `
+  function mostrarAlertaFinal(total,meta,cuota,diasRest) {
+    const diff = Math.max(0, meta-total);
+    const alc = diff<=0;
+    const dn = diff>0&&cuota>0 ? Math.ceil(diff/cuota) : 0;
+    let icon,title,html;
+    if(alc){
+      icon='success';title='¡Meta del mes alcanzada! 🏆';
+      html=`<p>Llevas <strong>${fCOP(total)}</strong> de <strong>${fCOP(meta)}</strong>. ¡Vas perfecto!</p>`;
+    } else if(dn>diasRest){
+      icon='error';title='⚠️ ¡Atención!';
+      html=`<p>Te faltan <strong style="color:var(--rojo)">${fCOP(diff)}</strong>.<br> Necesitas <strong>${dn}</strong> días más pero solo quedan <strong>${diasRest}</strong>.</p>`;
+    } else if(dn>0){
+      icon='warning';title='📊 Análisis del mes';
+      html=`<p>Llevas <strong>${fCOP(total)}</strong> de <strong>${fCOP(meta)}</strong>.<br> Debes trabajar <strong>${dn}</strong> día${dn!==1?'s':''} más. Quedan <strong>${diasRest}</strong> disponibles.</p>`;
+    } else return;
+    Swal.fire({ icon, title, html, confirmButtonText:'¡Entendido!' });
+  }
+
+  // ══════════════════════════════════════════════════
+  // PLAN DE AHORRO PERSONAL
+  // ══════════════════════════════════════════════════
+  function renderAhorro() {
+    const meta = APP.cfg.meta_ahorro || 4000000;
+    const total = APP.aportes.reduce((s,a) => s+(a.monto||0), 0);
+    const falta = Math.max(0, meta-total);
+    const pct = meta>0 ? Math.min(100,Math.round(total/meta*100)) : 0;
+    const off = 270 - (pct/100)*270;
+    document.getElementById('ring-ahorro').style.strokeDashoffset = off;
+    document.getElementById('ring-ahorro-pct').textContent = pct+'%';
+    document.getElementById('ahorro-tot').textContent = fCOP(total);
+    document.getElementById('ahorro-meta-disp').textContent= fCOP(meta);
+    document.getElementById('ahorro-pct-txt').textContent = pct+'%';
+    document.getElementById('prog-ahorro').style.width = pct+'%';
+    const cuota = APP.cfg.cuota_alquiler||APP.cfg.cuota_diaria_ahorro||60000;
+    const diaF = total<meta&&cuota>0 ? Math.ceil(falta/cuota) : 0;
+    document.getElementById('info-ahorro').innerHTML = total>=meta ? `<span class="t-v fw7">🏆 ¡Meta de <strong>${fCOP(meta)}</strong> alcanzada!</span>` : `Meta: <strong>${fCOP(meta)}</strong> | Falta: <strong class="t-r">${fCOP(falta)}</strong><br> Ahorrando <strong>${fCOP(cuota)}</strong>/día: aprox. <strong>${diaF}</strong> días más`;
+    const lista = document.getElementById('lista-aportes');
+    if (!APP.aportes.length) {
+      lista.innerHTML='<p class="t-d fs12 text-center p-3">Sin aportes aún.</p>';
+      return;
+    }
+    lista.innerHTML = APP.aportes.slice(0,8).map(a => `
     <div class="hitem">
       <div class="hico" style="background:var(--cian-l)">
         <span style="color:var(--cian)">💰</span>
@@ -2899,262 +2899,262 @@ select.inp option { background: #fff; color: var(--texto); }
         <i class="fa-solid fa-trash"></i>
       </button>
     </div>`).join('');
-    }
+  }
 
-    function modalAporte() {
-        APP.modales.mdAporte.show();
-    }
+  function modalAporte() {
+    APP.modales.mdAporte.show();
+  }
 
-    async function guardarAporte() {
-        const fecha = document.getElementById('ap-fecha').value;
-        const monto = parseInt(document.getElementById('ap-monto').value)||0;
-        const desc = document.getElementById('ap-desc').value.trim();
-        if (!fecha||monto<=0) {
-            Swal.fire({icon:'warning',title:'Datos incompletos'});
-            return;
-        }
-        await DB.collection(C.aportes).add({ fecha, monto, descripcion:desc, creado:new Date().toISOString() });
-        APP.modales.mdAporte.hide();
-        document.getElementById('ap-monto').value = '';
-        document.getElementById('ap-desc').value = '';
-        await cargarAportes();
-        renderAhorro();
-        Swal.fire({ icon:'success', title:'¡Aporte guardado! 💰', text:fCOP(monto), timer:1800, showConfirmButton:false });
+  async function guardarAporte() {
+    const fecha = document.getElementById('ap-fecha').value;
+    const monto = parseInt(document.getElementById('ap-monto').value)||0;
+    const desc = document.getElementById('ap-desc').value.trim();
+    if (!fecha||monto<=0) {
+      Swal.fire({icon:'warning',title:'Datos incompletos'});
+      return;
     }
+    await DB.collection(C.aportes).add({ fecha, monto, descripcion:desc, creado:new Date().toISOString() });
+    APP.modales.mdAporte.hide();
+    document.getElementById('ap-monto').value = '';
+    document.getElementById('ap-desc').value = '';
+    await cargarAportes();
+    renderAhorro();
+    Swal.fire({ icon:'success', title:'¡Aporte guardado! 💰', text:fCOP(monto), timer:1800, showConfirmButton:false });
+  }
 
-    async function eliminarAporte(id) {
-        const {isConfirmed}=await Swal.fire({ icon:'warning',title:'¿Eliminar aporte?', showCancelButton:true,confirmButtonText:'Sí',cancelButtonText:'No' });
-        if(!isConfirmed) return;
-        await DB.collection(C.aportes).doc(id).delete();
-        await cargarAportes();
-        renderAhorro();
-    }
+  async function eliminarAporte(id) {
+    const {isConfirmed}=await Swal.fire({ icon:'warning',title:'¿Eliminar aporte?', showCancelButton:true,confirmButtonText:'Sí',cancelButtonText:'No' });
+    if(!isConfirmed) return;
+    await DB.collection(C.aportes).doc(id).delete();
+    await cargarAportes();
+    renderAhorro();
+  }
 
-    function modalMeta() {
-        document.getElementById('meta-tot').value = APP.cfg.meta_ahorro||4000000;
-        APP.modales.mdMeta.show();
-    }
+  function modalMeta() {
+    document.getElementById('meta-tot').value = APP.cfg.meta_ahorro||4000000;
+    APP.modales.mdMeta.show();
+  }
 
-    async function guardarMetaAhorro() {
-        const v = parseInt(document.getElementById('meta-tot').value)||0;
-        if(v<=0){Swal.fire({icon:'warning',title:'Meta inválida'});return;}
-        await setCfg({meta_ahorro:v});
-        APP.modales.mdMeta.hide();
-        renderAhorro();
-        renderTablasCfg();
-        Swal.fire({icon:'success',title:'¡Meta actualizada!',text:fCOP(v),timer:1600,showConfirmButton:false});
-    }
+  async function guardarMetaAhorro() {
+    const v = parseInt(document.getElementById('meta-tot').value)||0;
+    if(v<=0){Swal.fire({icon:'warning',title:'Meta inválida'});return;}
+    await setCfg({meta_ahorro:v});
+    APP.modales.mdMeta.hide();
+    renderAhorro();
+    renderTablasCfg();
+    Swal.fire({icon:'success',title:'¡Meta actualizada!',text:fCOP(v),timer:1600,showConfirmButton:false});
+  }
 
-    // ══════════════════════════════════════════════════
-    // CONFIGURACIÓN — MODALES
-    // ══════════════════════════════════════════════════
-    function modalMetas() {
-        document.getElementById('m-dia').value = APP.cfg.meta_dia||'';
-        document.getElementById('m-sem').value = APP.cfg.meta_semana||'';
-        document.getElementById('m-mes').value = APP.cfg.meta_mes||'';
-        APP.modales.mdMetas.show();
-    }
+  // ══════════════════════════════════════════════════
+  // CONFIGURACIÓN — MODALES
+  // ══════════════════════════════════════════════════
+  function modalMetas() {
+    document.getElementById('m-dia').value = APP.cfg.meta_dia||'';
+    document.getElementById('m-sem').value = APP.cfg.meta_semana||'';
+    document.getElementById('m-mes').value = APP.cfg.meta_mes||'';
+    APP.modales.mdMetas.show();
+  }
 
-    async function guardarMetas() {
-        const d = {
-            meta_dia: parseInt(document.getElementById('m-dia').value)||0,
-            meta_semana: parseInt(document.getElementById('m-sem').value)||0,
-            meta_mes: parseInt(document.getElementById('m-mes').value)||0
-        };
-        await setCfg(d);
-        APP.modales.mdMetas.hide();
-        renderTablasCfg();
-        renderInicio();
-        Swal.fire({icon:'success',title:'¡Metas guardadas!',timer:1600,showConfirmButton:false});
-    }
+  async function guardarMetas() {
+    const d = {
+      meta_dia: parseInt(document.getElementById('m-dia').value)||0,
+      meta_semana: parseInt(document.getElementById('m-sem').value)||0,
+      meta_mes: parseInt(document.getElementById('m-mes').value)||0
+    };
+    await setCfg(d);
+    APP.modales.mdMetas.hide();
+    renderTablasCfg();
+    renderInicio();
+    Swal.fire({icon:'success',title:'¡Metas guardadas!',timer:1600,showConfirmButton:false});
+  }
 
-    function modalCostos() {
-        document.getElementById('cf-renta').value = APP.cfg.renta||'';
-        document.getElementById('cf-datos').value = APP.cfg.datos||'';
-        document.getElementById('cf-seguro').value = APP.cfg.seguro||'';
-        document.getElementById('cf-desgaste').value = APP.cfg.desgaste||'';
-        APP.modales.mdCostos.show();
-    }
+  function modalCostos() {
+    document.getElementById('cf-renta').value = APP.cfg.renta||'';
+    document.getElementById('cf-datos').value = APP.cfg.datos||'';
+    document.getElementById('cf-seguro').value = APP.cfg.seguro||'';
+    document.getElementById('cf-desgaste').value = APP.cfg.desgaste||'';
+    APP.modales.mdCostos.show();
+  }
 
-    async function guardarCostos() {
-        const d = {
-            renta: parseInt(document.getElementById('cf-renta').value)||0,
-            datos: parseInt(document.getElementById('cf-datos').value)||0,
-            seguro: parseInt(document.getElementById('cf-seguro').value)||0,
-            desgaste: parseInt(document.getElementById('cf-desgaste').value)||0
-        };
-        await setCfg(d);
-        APP.modales.mdCostos.hide();
-        renderTablasCfg();
-        Swal.fire({icon:'success',title:'¡Costos guardados!',timer:1600,showConfirmButton:false});
-    }
+  async function guardarCostos() {
+    const d = {
+      renta: parseInt(document.getElementById('cf-renta').value)||0,
+      datos: parseInt(document.getElementById('cf-datos').value)||0,
+      seguro: parseInt(document.getElementById('cf-seguro').value)||0,
+      desgaste: parseInt(document.getElementById('cf-desgaste').value)||0
+    };
+    await setCfg(d);
+    APP.modales.mdCostos.hide();
+    renderTablasCfg();
+    Swal.fire({icon:'success',title:'¡Costos guardados!',timer:1600,showConfirmButton:false});
+  }
 
-    function modalCfgAlquiler() {
-        document.getElementById('alq-cuota').value = APP.cfg.cuota_alquiler||'';
-        APP.modales.mdCfgAlq.show();
-    }
+  function modalCfgAlquiler() {
+    document.getElementById('alq-cuota').value = APP.cfg.cuota_alquiler||'';
+    APP.modales.mdCfgAlq.show();
+  }
 
-    async function guardarCfgAlquiler() {
-        const v = parseInt(document.getElementById('alq-cuota').value)||0;
-        if(v<=0){Swal.fire({icon:'warning',title:'Ingresa un valor válido'});return;}
-        await setCfg({cuota_alquiler:v, cfg_alquiler_ok:true});
-        APP.modales.mdCfgAlq.hide();
-        renderTablasCfg();
-        if(APP.cfg.modo==='alquiler_diario') await renderCal();
-        Swal.fire({icon:'success',title:'¡Cuota guardada!',text:fCOP(v),timer:1600,showConfirmButton:false});
-    }
+  async function guardarCfgAlquiler() {
+    const v = parseInt(document.getElementById('alq-cuota').value)||0;
+    if(v<=0){Swal.fire({icon:'warning',title:'Ingresa un valor válido'});return;}
+    await setCfg({cuota_alquiler:v, cfg_alquiler_ok:true});
+    APP.modales.mdCfgAlq.hide();
+    renderTablasCfg();
+    if(APP.cfg.modo==='alquiler_diario') await renderCal();
+    Swal.fire({icon:'success',title:'¡Cuota guardada!',text:fCOP(v),timer:1600,showConfirmButton:false});
+  }
 
-    function modalCfgAhorro() {
-        document.getElementById('aho-cuota-v').value = APP.cfg.cuota_vehiculo||'';
-        document.getElementById('aho-cuota-d').value = APP.cfg.cuota_diaria_ahorro||'';
-        APP.modales.mdCfgAho.show();
-    }
+  function modalCfgAhorro() {
+    document.getElementById('aho-cuota-v').value = APP.cfg.cuota_vehiculo||'';
+    document.getElementById('aho-cuota-d').value = APP.cfg.cuota_diaria_ahorro||'';
+    APP.modales.mdCfgAho.show();
+  }
 
-    async function guardarCfgAhorro() {
-        const v1 = parseInt(document.getElementById('aho-cuota-v').value)||0;
-        const v2 = parseInt(document.getElementById('aho-cuota-d').value)||0;
-        if(v1<=0){Swal.fire({icon:'warning',title:'Ingresa la cuota mensual'});return;}
-        await setCfg({cuota_vehiculo:v1, cuota_diaria_ahorro:v2, cfg_ahorro_ok:true});
-        APP.modales.mdCfgAho.hide();
-        renderTablasCfg();
-        Swal.fire({icon:'success',title:'¡Config guardada!',timer:1600,showConfirmButton:false});
-    }
+  async function guardarCfgAhorro() {
+    const v1 = parseInt(document.getElementById('aho-cuota-v').value)||0;
+    const v2 = parseInt(document.getElementById('aho-cuota-d').value)||0;
+    if(v1<=0){Swal.fire({icon:'warning',title:'Ingresa la cuota mensual'});return;}
+    await setCfg({cuota_vehiculo:v1, cuota_diaria_ahorro:v2, cfg_ahorro_ok:true});
+    APP.modales.mdCfgAho.hide();
+    renderTablasCfg();
+    Swal.fire({icon:'success',title:'¡Config guardada!',timer:1600,showConfirmButton:false});
+  }
 
-    function modalAutoCfg() {
-        document.getElementById('au-precio').value = APP.cfg.precio_gasolina||4500;
-        document.getElementById('au-rend').value = APP.cfg.rendimiento_kmL||9;
-        APP.modales.mdAuto.show();
-    }
+  function modalAutoCfg() {
+    document.getElementById('au-precio').value = APP.cfg.precio_gasolina||4500;
+    document.getElementById('au-rend').value = APP.cfg.rendimiento_kmL||9;
+    APP.modales.mdAuto.show();
+  }
 
-    async function guardarAuto() {
-        const d = {
-            precio_gasolina: parseInt(document.getElementById('au-precio').value)||4500,
-            rendimiento_kmL: parseFloat(document.getElementById('au-rend').value)||9
-        };
-        await setCfg(d);
-        APP.modales.mdAuto.hide();
-        renderTablasCfg();
-        renderGAuto();
-        Swal.fire({icon:'success',title:'¡Config del auto guardada!',timer:1600,showConfirmButton:false});
-    }
+  async function guardarAuto() {
+    const d = {
+      precio_gasolina: parseInt(document.getElementById('au-precio').value)||4500,
+      rendimiento_kmL: parseFloat(document.getElementById('au-rend').value)||9
+    };
+    await setCfg(d);
+    APP.modales.mdAuto.hide();
+    renderTablasCfg();
+    renderGAuto();
+    Swal.fire({icon:'success',title:'¡Config del auto guardada!',timer:1600,showConfirmButton:false});
+  }
 
-    async function guardarTodo() {
-        await cargarCfg();
-        renderTablasCfg();
-        renderInicio();
-        Swal.fire({icon:'success',title:'✅ Todo actualizado',timer:1800,showConfirmButton:false});
-    }
+  async function guardarTodo() {
+    await cargarCfg();
+    renderTablasCfg();
+    renderInicio();
+    Swal.fire({icon:'success',title:'✅ Todo actualizado',timer:1800,showConfirmButton:false});
+  }
 
-    function renderTablasCfg() {
-        const fv = (v, c='var(--verde)') => v>0 ? `<strong style="color:${c}">${fCOP(v)}</strong>` : `<em style="color:var(--texto3)">No configurado</em>`;
-        document.getElementById('tbl-metas').innerHTML = `
+  function renderTablasCfg() {
+    const fv = (v, c='var(--verde)') => v>0 ? `<strong style="color:${c}">${fCOP(v)}</strong>` : `<em style="color:var(--texto3)">No configurado</em>`;
+    document.getElementById('tbl-metas').innerHTML = `
     <tr><td>Meta Diaria</td><td>${fv(APP.cfg.meta_dia)}</td> <td><button class="btn-ico" onclick="modalMetas()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Meta Semanal</td><td>${fv(APP.cfg.meta_semana)}</td> <td><button class="btn-ico" onclick="modalMetas()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Meta Mensual</td><td>${fv(APP.cfg.meta_mes)}</td> <td><button class="btn-ico" onclick="modalMetas()"><i class="fa-solid fa-pen"></i></button></td></tr>`;
-        document.getElementById('tbl-costos').innerHTML = `
+    document.getElementById('tbl-costos').innerHTML = `
     <tr><td>Renta/Mensualidad</td><td>${fv(APP.cfg.renta,'var(--rojo)')}</td> <td><button class="btn-ico" onclick="modalCostos()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Plan de datos</td><td>${fv(APP.cfg.datos,'var(--rojo)')}</td> <td><button class="btn-ico" onclick="modalCostos()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Seguro de auto</td><td>${fv(APP.cfg.seguro,'var(--rojo)')}</td> <td><button class="btn-ico" onclick="modalCostos()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Desgaste mensual</td><td>${fv(APP.cfg.desgaste,'var(--rojo)')}</td> <td><button class="btn-ico" onclick="modalCostos()"><i class="fa-solid fa-pen"></i></button></td></tr>`;
-        document.getElementById('tbl-alquiler').innerHTML = `
+    document.getElementById('tbl-alquiler').innerHTML = `
     <tr><td>Cuota diaria alquiler</td><td>${fv(APP.cfg.cuota_alquiler,'var(--azul)')}</td> <td><button class="btn-ico" onclick="modalCfgAlquiler()"><i class="fa-solid fa-pen"></i></button></td></tr>`;
-        document.getElementById('tbl-ahorro-cfg').innerHTML = `
+    document.getElementById('tbl-ahorro-cfg').innerHTML = `
     <tr><td>Cuota mensual vehículo</td><td>${fv(APP.cfg.cuota_vehiculo,'var(--naranja)')}</td> <td><button class="btn-ico" onclick="modalCfgAhorro()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Meta ahorro diario</td><td>${fv(APP.cfg.cuota_diaria_ahorro)}</td> <td><button class="btn-ico" onclick="modalCfgAhorro()"><i class="fa-solid fa-pen"></i></button></td></tr>`;
-        const pgal = Math.round((APP.cfg.precio_gasolina||4500)*3.785);
-        const rendGal = ((APP.cfg.rendimiento_kmL||9)*3.785).toFixed(1);
-        document.getElementById('tbl-auto').innerHTML = `
+    const pgal = Math.round((APP.cfg.precio_gasolina||4500)*3.785);
+    const rendGal = ((APP.cfg.rendimiento_kmL||9)*3.785).toFixed(1);
+    document.getElementById('tbl-auto').innerHTML = `
     <tr><td>Precio gasolina/L</td> <td><strong style="color:var(--naranja)">${fCOP(APP.cfg.precio_gasolina||4500)}</strong></td> <td><button class="btn-ico" onclick="modalAutoCfg()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Precio est./galón</td> <td><strong style="color:var(--naranja)">${fCOP(pgal)}</strong></td><td></td></tr>
     <tr><td>Rendimiento (km/L)</td> <td><strong class="t-v">${APP.cfg.rendimiento_kmL||9} km/L</strong></td> <td><button class="btn-ico" onclick="modalAutoCfg()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Rendimiento (km/gal)</td> <td><strong class="t-v">~${rendGal} km/gal</strong></td><td></td></tr>`;
-        document.getElementById('tbl-ahorro-pers').innerHTML = `
+    document.getElementById('tbl-ahorro-pers').innerHTML = `
     <tr><td>Meta personal</td> <td><strong style="color:var(--cian)">${fCOP(APP.cfg.meta_ahorro||4000000)}</strong></td> <td><button class="btn-ico" onclick="modalMeta()"><i class="fa-solid fa-pen"></i></button></td></tr>
     <tr><td>Total ahorrado</td> <td><strong class="t-v">${fCOP(APP.aportes.reduce((s,a)=>s+(a.monto||0),0))}</strong></td> <td></td></tr>`;
-    }
+  }
 
-    // ══════════════════════════════════════════════════
-    // HELPERS SVG DONUT
-    // ══════════════════════════════════════════════════
-    function donut(slices, r, cx) {
-        let ang = -Math.PI/2, html = '';
-        const cy = cx;
-        slices.forEach(s => {
-            if (!s.pct) return;
-            const ini = ang, fin = ang + s.pct * 2 * Math.PI;
-            const x1 = cx + r*Math.cos(ini), y1 = cy + r*Math.sin(ini);
-            const x2 = cx + r*Math.cos(fin), y2 = cy + r*Math.sin(fin);
-            const lg = s.pct > 0.5 ? 1 : 0;
-            html += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2} Z" fill="${s.color}" opacity=".85"/>`;
-            ang = fin;
-        });
-        return html + `<circle cx="${cx}" cy="${cy}" r="${r*.62}" fill="white"/>`;
-    }
+  // ══════════════════════════════════════════════════
+  // HELPERS SVG DONUT
+  // ══════════════════════════════════════════════════
+  function donut(slices, r, cx) {
+    let ang = -Math.PI/2, html = '';
+    const cy = cx;
+    slices.forEach(s => {
+      if (!s.pct) return;
+      const ini = ang, fin = ang + s.pct * 2 * Math.PI;
+      const x1 = cx + r*Math.cos(ini), y1 = cy + r*Math.sin(ini);
+      const x2 = cx + r*Math.cos(fin), y2 = cy + r*Math.sin(fin);
+      const lg = s.pct > 0.5 ? 1 : 0;
+      html += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2} Z" fill="${s.color}" opacity=".85"/>`;
+      ang = fin;
+    });
+    return html + `<circle cx="${cx}" cy="${cy}" r="${r*.62}" fill="white"/>`;
+  }
 
-    // ══════════════════════════════════════════════════
-    // UTILIDADES
-    // ══════════════════════════════════════════════════
-    function toYMD(date) {
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
-    }
+  // ══════════════════════════════════════════════════
+  // UTILIDADES
+  // ══════════════════════════════════════════════════
+  function toYMD(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
 
-    function fCOP(v) {
-        return new Intl.NumberFormat('es-CO', {
-            style: 'currency',
-            currency: 'COP',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(Math.round(v) || 0);
-    }
+  function fCOP(v) {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(Math.round(v) || 0);
+  }
 
-    function pad(n) {
-        return String(n).padStart(2,'0');
-    }
+  function pad(n) {
+    return String(n).padStart(2,'0');
+  }
 
-    function llenarFiltroMeses() {
-        const sel = document.getElementById('filtro-mes');
-        if (!sel) return;
-        const hoy = new Date();
-        for (let i = 0; i < 6; i++) {
-            const d = new Date(hoy.getFullYear(), hoy.getMonth()-i, 1);
-            const val = `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
-            const opt = document.createElement('option');
-            opt.value = val;
-            opt.textContent = d.toLocaleDateString('es-CO',{month:'long',year:'numeric'});
-            if (i===0) opt.selected = true;
-            sel.appendChild(opt);
-        }
+  function llenarFiltroMeses() {
+    const sel = document.getElementById('filtro-mes');
+    if (!sel) return;
+    const hoy = new Date();
+    for (let i = 0; i < 6; i++) {
+      const d = new Date(hoy.getFullYear(), hoy.getMonth()-i, 1);
+      const val = `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
+      const opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = d.toLocaleDateString('es-CO',{month:'long',year:'numeric'});
+      if (i===0) opt.selected = true;
+      sel.appendChild(opt);
     }
+  }
 
-    function catColor(c) {
-        return {
-            uber:'#1c1c1c', didi:'#ff6900', indrive:'#1a7a2e', efectivo:'#16a34a',
-            propina:'#7c3aed', particular:'#2563eb', gasolina:'#dc2626', lavado:'#0891b2',
-            comida:'#d97706', taller:'#1d4ed8', impuestos:'#475569', otros:'#78716c'
-        }[c] || '#64748b';
-    }
+  function catColor(c) {
+    return {
+      uber:'#1c1c1c', didi:'#ff6900', indrive:'#1a7a2e', efectivo:'#16a34a',
+      propina:'#7c3aed', particular:'#2563eb', gasolina:'#dc2626', lavado:'#0891b2',
+      comida:'#d97706', taller:'#1d4ed8', impuestos:'#475569', otros:'#78716c'
+    }[c] || '#64748b';
+  }
 
-    function catEmoji(c) {
-        return {
-            uber:'🚘', didi:'🟠', indrive:'🟢', efectivo:'💵', propina:'🎁',
-            particular:'👤', gasolina:'⛽', lavado:'🧼', comida:'🍔', taller:'🔧',
-            impuestos:'📋', otros:'📌'
-        }[c] || '📌';
-    }
+  function catEmoji(c) {
+    return {
+      uber:'🚘', didi:'🟠', indrive:'🟢', efectivo:'💵', propina:'🎁',
+      particular:'👤', gasolina:'⛽', lavado:'🧼', comida:'🍔', taller:'🔧',
+      impuestos:'📋', otros:'📌'
+    }[c] || '📌';
+  }
 
-    function catNom(c) {
-        return {
-            uber:'Uber', didi:'DiDi', indrive:'InDrive', efectivo:'Efectivo',
-            propina:'Propina', particular:'Particular', gasolina:'Gasolina',
-            lavado:'Lavado', comida:'Comida', taller:'Taller', impuestos:'Impuestos',
-            otros:'Otros'
-        }[c] || c;
-    }
+  function catNom(c) {
+    return {
+      uber:'Uber', didi:'DiDi', indrive:'InDrive', efectivo:'Efectivo',
+      propina:'Propina', particular:'Particular', gasolina:'Gasolina',
+      lavado:'Lavado', comida:'Comida', taller:'Taller', impuestos:'Impuestos',
+      otros:'Otros'
+    }[c] || c;
+  }
 
-    actualizarFechaN();
+  actualizarFechaN();
 </script>
 </body>
 </html>
