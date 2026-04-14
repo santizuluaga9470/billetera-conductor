@@ -1824,6 +1824,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       await cargarCfg();
     }
 
+    if (!APP.cfg.modo || APP.cfg.modo.trim() === '') { ... }
+
     // 3. Si el modo está configurado pero faltan las cuotas → pedirlas UNA VEZ
     if (APP.cfg.modo === 'alquiler_diario' && !APP.cfg.cfg_alquiler_ok) {
       await pedirCuotaAlquiler();
